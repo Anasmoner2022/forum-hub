@@ -2,7 +2,8 @@ import {readFile,readdir,stat,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
-const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const workspaceRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const root=process.argv[2]?path.resolve(workspaceRoot,process.argv[2]):workspaceRoot;
 const inventory=JSON.parse(await readFile(path.join(root,'curriculum.json'),'utf8'));
 const errors=[];
 const check=(ok,message)=>{if(!ok)errors.push(message);};
@@ -11,7 +12,7 @@ check(ids.size===32,'Expected 32 unique guides');
 check(inventory.projects.filter(p=>p.kind==='prep').length===26,'Expected 26 preparation guides');
 check(inventory.projects.filter(p=>p.kind==='capstone').length===6,'Expected six final assignment guides');
 
-async function walk(dir){const files=[];for(const e of await readdir(dir,{withFileTypes:true})){if(e.name==='node_modules'||e.name==='.git')continue;const f=path.join(dir,e.name);if(e.isDirectory())files.push(...await walk(f));else files.push(f);}return files;}
+async function walk(dir){const files=[];for(const e of await readdir(dir,{withFileTypes:true})){if(['node_modules','.git','.vercel','public'].includes(e.name))continue;const f=path.join(dir,e.name);if(e.isDirectory())files.push(...await walk(f));else files.push(f);}return files;}
 const files=await walk(root),htmlFiles=files.filter(f=>f.endsWith('.html'));
 const voidTags=new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr']);
 let links=0,syntaxChecks=0;

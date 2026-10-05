@@ -20,3 +20,7 @@ npm run check
 The builder is dependency-free on Node 24.15+. It completes each whole project guide before moving to the next. Generated curriculum.json is the local inventory; learner completion is not inferred from content generation. Check reports verify curriculum structure, link integrity, coverage ordering and scaffold syntax, not completed student implementations.
 
 Read the instructor release/preflight checklist before the first cohort. Exact dependency pins and time estimates require an academy pilot.
+
+## Share on Vercel
+
+The build also creates public/ for static hosting. Use Framework Preset Other, Build Command npm run build, and Output Directory public. Run npm run check:site to validate the published pages and downloads. See [DEPLOYMENT.md](DEPLOYMENT.md) for the full setup and troubleshooting steps.
