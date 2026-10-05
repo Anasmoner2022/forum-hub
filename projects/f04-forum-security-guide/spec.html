@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — F04: Forum Security: HTTPS, Limits and Session Defense</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Backend choice</h2><p>A team of 4–5 students chooses one backend for the shared forum repository: JavaScript on Node.js or Go. The choice applies consistently to the base and its extensions. The behavioral contract and assessment are the same. These guided chapters teach the Node.js route. Go teams must satisfy the equivalent preparation checks before starting and already know Go syntax, modules, errors and its standard library.</p><p>Node route: core node:http/node:https, node:sqlite, node:crypto, node:test and semantic HTML. No frontend frameworks or ORM; Busboy, Sharp and jose are allowed for prepared specialist tasks. Go route: net/http, html/template, database/sql with an approved SQLite driver, crypto/rand, a reviewed password-hash package and testing. See the language policy for exact package and readiness rules.</p><h2 id="section-2">Required behavior</h2><div class="table-scroll" role="region" aria-label="ID / Contract / Completed preparation / Verification / Source or academy policy" tabindex="0"><table data-columns="5">
+<caption>ID / Contract / Completed preparation / Verification / Source or academy policy</caption>
+<thead><tr><th scope="col">ID</th><th scope="col">Contract</th><th scope="col">Completed preparation</th><th scope="col">Verification</th><th scope="col">Source or academy policy</th></tr></thead>
+<tbody>
+<tr><td>S01</td><td>Serve HTTPS with a certificate and private key; development trust is explicit and deployed trust uses a valid CA-issued hostname certificate with renewal documentation.</td><td><a href="../../prep/p18-https-certificate-lab-guide/index.html">P18: HTTPS, Certificates and Container Configuration</a></td><td>Verified HTTPS request and wrong-hostname failure.</td><td>Source requirement</td></tr>
+<tr><td>S02</td><td>Document certificate authority, hostname/SAN verification, TLS protocol floor and negotiated cipher concepts; use reviewed runtime defaults and minimum TLSv1.2.</td><td><a href="../../prep/p18-https-certificate-lab-guide/index.html">P18: HTTPS, Certificates and Container Configuration</a></td><td>Inspect certificate and protocol without globally bypassing verification.</td><td>Source cipher recommendation made an academy explanation task</td></tr>
+<tr><td>S03</td><td>Enforce login identifier/IP and authenticated-write rate policies from P19; return 429 with Retry-After and bound costly concurrent work and limiter key storage.</td><td><a href="../../prep/p19-rate-limit-service-guide/index.html">P19: Rate Limiting and Bounded Work</a></td><td>Budget, boundary, spoofed-header and work-count tests pass.</td><td>Source requirement</td></tr>
+<tr><td>S04</td><td>Retain measured versioned password hashing and unique salted records; passwords are hashed, not reversibly encrypted.</td><td><a href="../../prep/p09-credential-vault-guide/index.html">P09: Registration and Password Hashing Vault</a><br><a href="../../prep/p19-rate-limit-service-guide/index.html">P19: Rate Limiting and Bounded Work</a><br><a href="../../prep/p20-session-attack-workbench-guide/index.html">P20: Session Attack and Browser Defense Workbench</a></td><td>Correct/incorrect verification and plaintext/log scans pass.</td><td>Source requirement</td></tr>
+<tr><td>S05</td><td>Keep session state server-side with unique random opaque cookies, digests, one active session, idle/absolute expiration, logout revocation and privilege-change rotation.</td><td><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a><br><a href="../../prep/p20-session-attack-workbench-guide/index.html">P20: Session Attack and Browser Defense Workbench</a></td><td>Fixation, forged/revoked token and simultaneous-login tests pass.</td><td>Source requirement</td></tr>
+<tr><td>S06</td><td>Protect unsafe routes with session/CSRF/origin rules, escape rendered text, bind SQL values and deploy reviewed safe headers/private cache policy.</td><td><a href="../../prep/p03-html-form-board-guide/index.html">P03: HTML Forms and Safe Rendering Board</a><br><a href="../../prep/p06-topic-repository-guide/index.html">P06: Topic and Reply Repository</a><br><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a><br><a href="../../prep/p20-session-attack-workbench-guide/index.html">P20: Session Attack and Browser Defense Workbench</a></td><td>Forged form and hostile-content tests produce no unauthorized mutation.</td><td>Academy defense detail</td></tr>
+<tr><td>S07</td><td>Handle security/technical failures without exposing secrets and test pressure against a disposable instance; keep keys out of source/image layers.</td><td><a href="../../prep/p11-failure-and-team-lab-guide/index.html">P11: Failure Handling, Tests and Team Integration</a><br><a href="../../prep/p18-https-certificate-lab-guide/index.html">P18: HTTPS, Certificates and Container Configuration</a><br><a href="../../prep/p20-session-attack-workbench-guide/index.html">P20: Session Attack and Browser Defense Workbench</a></td><td>Injected faults and log scans pass; image excludes private keys.</td><td>Source requirement</td></tr>
+<tr><td>S08</td><td>Retain the F01 suite and, for installed optional features, re-run their callback/upload/visibility guards under HTTPS and rate limits.</td><td><a href="../../prep/p11-failure-and-team-lab-guide/index.html">P11: Failure Handling, Tests and Team Integration</a><br><a href="../../prep/p20-session-attack-workbench-guide/index.html">P20: Session Attack and Browser Defense Workbench</a></td><td>Every installed workflow passes hardened-mode regression.</td><td>Academy integrated regression detail</td></tr>
+</tbody></table></div><h2 id="section-3">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>createSecureForum(config)</td><td>Load validated HTTPS configuration and route policies before listening.</td></tr>
+<tr><td>applyRequestBudget(context, request)</td><td>Enforce prepared limits before expensive route work.</td></tr>
+</tbody></table></div><h2 id="section-4">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>HTTPS</td><td>verified localhost request with --cacert</td><td>200; SAN/time verified</td></tr>
+<tr><td>Bad configuration</td><td>missing private key</td><td>startup refuses before listen</td></tr>
+<tr><td>Login limits</td><td>sixth identifier attempt inside 60 seconds</td><td>429 with Retry-After</td></tr>
+<tr><td>Work concurrency</td><td>burst across many identifiers</td><td>configured active hash bound</td></tr>
+<tr><td>Session fixation</td><td>chosen pre-login token then successful login</td><td>fresh random token; chosen token fails</td></tr>
+<tr><td>Revocation/expiry</td><td>logout replay and idle/absolute clock boundaries</td><td>no authentication</td></tr>
+<tr><td>CSRF/injection</td><td>hostile form/text/SQL-like payload</td><td>no unauthorized write or executable content</td></tr>
+<tr><td>Regression</td><td>all installed forum features over HTTPS</td><td>same permitted behavior; no secret leakage</td></tr>
+</tbody></table></div><h2 id="section-5">Out of scope</h2><p>Only the named assignment and installed-extension integration policies are required. Extra providers, rich-text editors, chat, email delivery, search engines, multiple replicas and push transports remain elective. Do not add an unprepared dependency to meet a mandatory requirement.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Backend choice</a></li><li><a href="#section-2">Required behavior</a></li><li><a href="#section-3">Inputs and output contracts</a></li><li><a href="#section-4">Error and boundary cases</a></li><li><a href="#section-5">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

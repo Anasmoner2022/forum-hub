@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Node.js and subject refresher — F03: Forum Image Upload: Verified Media in Posts</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Node.js and subject refresher</h1><p>Upload success means bytes were bounded, format was decoded, storage was finalized and the post linkage committed. Each earlier failure needs cleanup.</p><pre><code>private temp → bounded verified image → finalized private key → post link
+TODO: map every failure point to its cleanup or reconciliation action.</code></pre><h2 id="section-1">Project-specific trace</h2><p>Before implementing anything, predict the “JPEG/PNG/GIF” case: input upload one valid fixture each, result post and image visible to guest if public. Then contrast it with “Visibility/restart”.</p><h2 id="section-2">Keep the boundary visible</h2><ul>
+<li>createPostWithOptionalImage(context, multipartRequest): Reuse prepared intake, validation and atomic post services.</li>
+<li>getPostAsset(context, assetId): Authorize current parent visibility and serve verified type.</li>
+</ul><p>The short example illustrates an API or a reasoning tool. It does not implement the required service. Return to the mandatory reading if you cannot explain the example’s inputs, side effects or possible errors.</p><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Project-specific trace</a></li><li><a href="#section-2">Keep the boundary visible</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

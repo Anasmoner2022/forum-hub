@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Node.js and subject refresher — P24: Owned Editing, Deletion and Stale Update Conflicts</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Node.js and subject refresher</h1><p>Optimistic concurrency asks whether the stored version still matches the version the editor saw. A successful conditional update is the proof, not a separate precheck.</p><pre><code>Editor A reads version 1
+Editor B reads version 1
+A saves → version 2
+B saves with expectedVersion 1 → conflict
+TODO: make this decision and write occur atomically.</code></pre><h2 id="section-1">Project-specific trace</h2><p>Before implementing anything, predict the “Owner edit” case: input author edits post at current version, result content changes; version increments. Then contrast it with “Moderated edit”.</p><h2 id="section-2">Keep the boundary visible</h2><ul>
+<li>editOwnedPost(db, actor, postId, input, expectedVersion, policy): Apply validated owner edit conditionally.</li>
+<li>editOwnedComment(db, actor, commentId, body, expectedVersion): Apply owner edit or forbidden/conflict.</li>
+<li>deleteOwnedContent(db, actor, target, expectedVersion): Soft-delete and enforce child visibility consistently.</li>
+</ul><p>The short example illustrates an API or a reasoning tool. It does not implement the required service. Return to the mandatory reading if you cannot explain the example’s inputs, side effects or possible errors.</p><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Project-specific trace</a></li><li><a href="#section-2">Keep the boundary visible</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

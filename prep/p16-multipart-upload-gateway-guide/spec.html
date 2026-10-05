@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P16: Streaming Multipart Upload Gateway</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Accept exactly one file field named image plus title, body, csrf and 1–5 repeated category fields from a native multiple select; require authentication before receiving the upload. Reject unsafe Origin before parsing, then validate the bounded csrf field before publishing anything.</li>
+<li>Support multipart/form-data only; use Busboy rather than writing a multipart parser. Limit fields to 8, fieldSize to 16 KiB, files to 1, parts to 9 and whole request to 21,000,000 bytes. Reject unknown field names and collect repeated category values before validating distinct IDs.</li>
+<li>The source says 20 mb; academy defines the exact per-file limit as 20,000,000 bytes (decimal MB). Accept at the limit and reject one byte above with 413 and a clear image-too-big message.</li>
+<li>Do not trust Content-Length alone. Enforce file-stream byte limit, parser truncation/limit events, total request byte count, timeouts and client abort handling.</li>
+<li>Write provisional files under a private temp directory using generated names, never client filenames. Failure, missing/wrong CSRF or abort removes all temp files and creates no public record.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>receiveUpload(request, auth, config)</td><td>Return a private temp path and bounded fields only after all checks pass.</td></tr>
+<tr><td>cleanupUpload(tempPaths)</td><td>Remove provisional files safely and idempotently.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>At limit</td><td>one 20,000,000-byte synthetic file</td><td>accepted by byte intake; image validation still required in P17</td></tr>
+<tr><td>Over limit</td><td>one 20,000,001-byte file</td><td>413 image too big; no temp residue</td></tr>
+<tr><td>Extra file</td><td>two image parts</td><td>rejected; cleanup</td></tr>
+<tr><td>Wrong CSRF</td><td>valid cookie; bad csrf field</td><td>403; no public record</td></tr>
+<tr><td>Abort</td><td>disconnect after partial file</td><td>temp removed; server healthy</td></tr>
+<tr><td>Guest</td><td>upload without session</td><td>401 before intake</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

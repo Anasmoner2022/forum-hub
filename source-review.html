@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Sources, adaptation and R&amp;D notes</title>
+<link rel="stylesheet" href="assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="index.html">Overview</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="coverage.html">Coverage</a>
+      <a href="instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Curriculum index</a></p><h1>Sources, adaptation and R&amp;D notes</h1><p>Prepared 2026-10-05. The six original Markdown files supplied in this folder are the primary project briefs and remain unchanged. The upstream main forum and security pages were also read. Some upstream optional pages were unavailable to the browser, so their content was grounded in the supplied local briefs, not claimed as a freshly fetched version.</p><h2 id="section-1">Original briefs and academy assignments</h2><div class="table-scroll" role="region" aria-label="Original retained / Academy assignment / Guide" tabindex="0"><table data-columns="3">
+<caption>Original retained / Academy assignment / Guide</caption>
+<thead><tr><th scope="col">Original retained</th><th scope="col">Academy assignment</th><th scope="col">Guide</th></tr></thead>
+<tbody>
+<tr><td><a href="forum.md">forum.md</a></td><td><a href="assignments/forum.md">Forum: Full Stack Community brief</a></td><td><a href="projects/f01-forum-guide/index.html">F01: Forum: Full Stack Community</a></td></tr>
+<tr><td><a href="authentication.md">authentication.md</a></td><td><a href="assignments/forum-authentication.md">Forum Authentication: Google and GitHub SSO brief</a></td><td><a href="projects/f02-forum-authentication-guide/index.html">F02: Forum Authentication: Google and GitHub SSO</a></td></tr>
+<tr><td><a href="forum-image-upload.md">forum-image-upload.md</a></td><td><a href="assignments/forum-image-upload.md">Forum Image Upload: Verified Media in Posts brief</a></td><td><a href="projects/f03-forum-image-upload-guide/index.html">F03: Forum Image Upload: Verified Media in Posts</a></td></tr>
+<tr><td><a href="forum-security.md">forum-security.md</a></td><td><a href="assignments/forum-security.md">Forum Security: HTTPS, Limits and Session Defense brief</a></td><td><a href="projects/f04-forum-security-guide/index.html">F04: Forum Security: HTTPS, Limits and Session Defense</a></td></tr>
+<tr><td><a href="forum-moderation.md">forum-moderation.md</a></td><td><a href="assignments/forum-moderation.md">Forum Moderation: Roles and Review Workflows brief</a></td><td><a href="projects/f05-forum-moderation-guide/index.html">F05: Forum Moderation: Roles and Review Workflows</a></td></tr>
+<tr><td><a href="forum-advanced-features.md">forum-advanced-features.md</a></td><td><a href="assignments/forum-advanced-features.md">Forum Advanced Features: Notifications, Activity and Editing brief</a></td><td><a href="projects/f06-forum-advanced-features-guide/index.html">F06: Forum Advanced Features: Notifications, Activity and Editing</a></td></tr>
+</tbody></table></div><h2 id="section-2">Adaptations made explicit</h2><ul>
+<li>Go-or-Node.js team choice replaces source Go-only language restrictions. Worked preparation and starter code use Node.js.</li>
+<li>ERD is a submitted deliverable and password hashing is a baseline requirement, even where the source makes them recommendations/bonuses.</li>
+<li>Source “password encryption” is implemented as one-way password hashing; live database encryption remains a separate optional SQLCipher track.</li>
+<li>Source 20 mb becomes exactly 20,000,000 bytes; dimensions, animation and whole-request budgets are defined for testable resource limits.</li>
+<li>CSRF, ownership/recipient checks, concurrency conflicts, cleanup and repeatable verification are explicit academy contracts, prepared before integration.</li>
+<li>Notifications are durable stored inbox items. The source learning outcome mentions real-time, but its required feature list does not specify a push protocol; SSE/WebSockets remain elective and require separate prep.</li>
+<li>Go-specific goroutines/channels are not mandatory Node APIs; the Node route practices promises, streams and transaction/concurrency boundaries for the same behavior.</li>
+<li>Optional extensions can branch independently from F01; integrated combinations receive explicit regression obligations.</li>
+</ul><h2 id="section-3">Primary documentation reviewed</h2><ul><li><a href="https://eloquentjavascript.net/10_modules.html">Eloquent JavaScript, fourth edition, chapter 10: Modules</a></li><li><a href="https://eloquentjavascript.net/11_async.html">Eloquent JavaScript, fourth edition, chapter 11: Asynchronous Programming</a></li><li><a href="https://eloquentjavascript.net/18_http.html">Eloquent JavaScript, fourth edition, chapter 18: HTTP and Forms</a></li><li><a href="https://eloquentjavascript.net/20_node.html">Eloquent JavaScript, fourth edition, chapter 20: Node.js</a></li><li><a href="https://nodejs.org/download/release/latest-v24.x/docs/api/sqlite.html">Node.js 24: SQLite</a></li><li><a href="https://www.sqlite.org/foreignkeys.html">SQLite: Foreign Key Support</a></li><li><a href="https://www.sqlite.org/lang_transaction.html">SQLite: Transactions</a></li><li><a href="https://www.sqlite.org/queryplanner.html">SQLite: Query Planning</a></li><li><a href="https://docs.docker.com/get-started/docker-concepts/running-containers/persisting-container-data/">Docker: Persisting container data</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html">OWASP: Session Management</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">OWASP: Password Storage</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html">OWASP: Cross-Site Request Forgery Prevention</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html">OWASP: File Upload</a></li><li><a href="https://www.rfc-editor.org/rfc/rfc9700.html">RFC 9700: Best Current Practice for OAuth 2.0 Security</a></li><li><a href="https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps">GitHub: Authorizing OAuth apps</a></li><li><a href="https://docs.github.com/en/rest/users/emails">GitHub: REST API endpoints for emails</a></li><li><a href="https://developers.google.com/identity/openid-connect/openid-connect">Google: OpenID Connect</a></li><li><a href="https://github.com/panva/jose">jose: JWT verification and remote JWKS</a></li><li><a href="https://github.com/mscdex/busboy">Busboy: API, parser limits and file events</a></li><li><a href="https://sharp.pixelplumbing.com/api-constructor/">Sharp: Constructor and input limits</a></li><li><a href="https://sharp.pixelplumbing.com/api-input/">Sharp: Input metadata</a></li><li><a href="https://docs.openssl.org/3.5/man1/openssl-req/">OpenSSL 3.5: openssl-req</a></li><li><a href="https://www.zetetic.net/sqlcipher/sqlcipher-api/">SQLCipher: Keying, rekey, export and integrity APIs</a></li><li><a href="https://github.com/journeyapps/node-sqlcipher">JourneyApps: SQLCipher Node bindings and supported platforms</a></li><li><a href="https://github.com/01-edu/public/tree/master/subjects/forum">01-edu: forum source subject</a></li></ul><h2 id="section-4">Review limitations and cohort research</h2><p>This delivery verifies guide structure, local navigation, prerequisite coverage and scaffold syntax. It intentionally leaves implementation logic to learners and does not claim to have built/tested all learner solutions or registered provider applications. The instructor preflight covers live setup, native-driver compatibility and timing estimates. Primary references support the technology choices; field lengths, timeouts, pixel budgets and the rubric are authored academy policies.</p><h2 id="section-5">Reference format</h2><p>The chapter organization follows the installed book-project-guide skill and the existing Learning Hub Library System / Task Tracker API guides read for reference. At the user’s request, the standalone hub and every guide now share a responsive dark stylesheet. The guide pages use no browser JavaScript. The Learning Hub was read for its format and was not modified.</p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Original briefs and academy assignments</a></li><li><a href="#section-2">Adaptations made explicit</a></li><li><a href="#section-3">Primary documentation reviewed</a></li><li><a href="#section-4">Review limitations and cohort research</a></li><li><a href="#section-5">Reference format</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

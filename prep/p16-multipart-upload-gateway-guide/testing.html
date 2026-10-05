@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Testing — P16: Streaming Multipart Upload Gateway</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Testing</h1><p>Implement these tests from the specification. Include assertions about response, data and cleanup; do not call the same helper to produce both the actual and expected value.</p><h2 id="section-1">Verification cases</h2><div class="table-scroll" role="region" aria-label="Case / Input or action / Required outcome" tabindex="0"><table data-columns="3">
+<caption>Case / Input or action / Required outcome</caption>
+<thead><tr><th scope="col">Case</th><th scope="col">Input or action</th><th scope="col">Required outcome</th></tr></thead>
+<tbody>
+<tr><td>At limit</td><td>one 20,000,000-byte synthetic file</td><td>accepted by byte intake; image validation still required in P17</td></tr>
+<tr><td>Over limit</td><td>one 20,000,001-byte file</td><td>413 image too big; no temp residue</td></tr>
+<tr><td>Extra file</td><td>two image parts</td><td>rejected; cleanup</td></tr>
+<tr><td>Wrong CSRF</td><td>valid cookie; bad csrf field</td><td>403; no public record</td></tr>
+<tr><td>Abort</td><td>disconnect after partial file</td><td>temp removed; server healthy</td></tr>
+<tr><td>Guest</td><td>upload without session</td><td>401 before intake</td></tr>
+</tbody></table></div><h2 id="section-2">Commands</h2><pre><code>node --version
+npm install --package-lock-only
+npm ci
+npm start -- demo
+npm test</code></pre><p>The demo/serve adapters are TODO assignments in src/scenario.js. Once implemented, demo runs the documented cases; serve starts the HTTP adapter where relevant. npm test must finish with zero failures, zero skipped tests and zero TODO tests. Exact output text may differ, but statuses, data, boundaries and cleanup must match the table.</p><h2 id="section-3">Independent review</h2><ul>
+<li>Use a fresh temporary database and synthetic credentials for each integration scenario.</li>
+<li>Await asynchronous calls, close servers/connections, and use an injected clock for expiry and rate-limit checks.</li>
+<li>Exercise both success and the specified forbidden/failure paths; record persistent state after each.</li>
+<li>Run the earlier preparation regression cases for any component reused or changed here.</li>
+</ul><h2 id="section-4">Exit gate</h2><ul>
+<li>All required cases pass and test scaffolds contain no remaining test.todo or skipped cases.</li>
+<li>A peer reproduces the run using only your README.</li>
+<li>You can explain an invariant and repair an intentionally introduced defect.</li>
+<li>No secrets or real user data appear in the submitted fixtures, logs or repository.</li>
+</ul><p>Do not start the next forum assignment merely because time elapsed. Resolve a failed readiness gate in preparation first.</p><p><a href="wiring-it-up.html">← Previous: Wiring it up and running it</a> | <a href="engineering-questions.html">Next: Engineering questions &amp; Socratic vision →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Verification cases</a></li><li><a href="#section-2">Commands</a></li><li><a href="#section-3">Independent review</a></li><li><a href="#section-4">Exit gate</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

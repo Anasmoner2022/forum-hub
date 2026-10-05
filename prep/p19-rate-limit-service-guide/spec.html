@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P19: Rate Limiting and Bounded Work</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Implement fixed-window policies in this single-instance lab: login 5 attempts per normalized identifier and 20 per source IP per 60 seconds; authenticated writes 30 per member per 60 seconds.</li>
+<li>For upload-enabled apps, add 5 attempts per member per 60 seconds; reject limits before expensive hashing or decoding where possible.</li>
+<li>The first request opens the window; the exact expiry time begins a new window. A blocked attempt does not extend the window. Include Retry-After in seconds rounded up.</li>
+<li>Resolve caller keys from trusted session context and socket peer; ignore spoofed X-Forwarded-For unless a separately documented trusted proxy policy is installed.</li>
+<li>Bound active key storage to 10000 entries, expire stale entries and define safe capacity rejection; a full limiter cannot silently disable protection. Bound simultaneous scrypt jobs to a measured small maximum, default 1 in the lab.</li>
+<li>Document restart reset and single-instance assumptions. Shared enforcement for multiple replicas requires another preparation project and is not implied.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>allowAttempt(key, policy, now)</td><td>Return {allowed, retryAfterSeconds} without extending blocked windows.</td></tr>
+<tr><td>pruneLimiter(now)</td><td>Remove stale keys while retaining live policy state.</td></tr>
+<tr><td>runExpensiveJob(task)</td><td>Enforce a bounded concurrent job count and safe overload behavior.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Identifier limit</td><td>6 attempts for one identifier inside 60s</td><td>sixth 429</td></tr>
+<tr><td>IP limit</td><td>21 identifiers from one IP inside 60s</td><td>twenty-first 429</td></tr>
+<tr><td>Retry header</td><td>blocked at 59001ms after start</td><td>Retry-After=1</td></tr>
+<tr><td>Boundary</td><td>attempt at start+60000</td><td>new window; allowed</td></tr>
+<tr><td>Proxy spoof</td><td>change untrusted X-Forwarded-For</td><td>same socket IP budget</td></tr>
+<tr><td>Work bound</td><td>many allowed requests trigger scrypt</td><td>at most configured active jobs; overload handled</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

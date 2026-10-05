@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P26: Personal Activity Queries and Index Observatory</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Show the signed-in member’s created posts, current likes and dislikes on posts and comments, and authored comments including comment text plus parent post title/link.</li>
+<li>Derive actor ID from the session; query parameters cannot select another member. Other actors’ private activity never appears.</li>
+<li>Explain the difference between current reaction state and event history. Cleared reactions disappear from the current-reactions section; switches move between like/dislike sections.</li>
+<li>Apply parent visibility and deletion policy: public links only to accessible content; owner-visible pending posts are labelled pending; deleted items show a neutral tombstone without leaking retained text.</li>
+<li>Use stable ordering by timestamp and ID, separate sections with 10-item pagination, bound inputs and avoid N+1 reads and multiplied aggregates.</li>
+<li>Record EXPLAIN QUERY PLAN on at least 1000 synthetic records, justify composite indexes for author/recipient/target queries, and keep correctness fixtures unchanged after optimization.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>listActivity(db, actor, section, page)</td><td>Return only the actor’s paginated public/authorized activity DTOs.</td></tr>
+<tr><td>inspectActivityPlans(db)</td><td>Return query-plan evidence for the documented queries.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Created posts</td><td>A has two authored posts</td><td>A section lists exactly two</td></tr>
+<tr><td>Comment context</td><td>A comments on B’s post</td><td>comment text plus B post title/link</td></tr>
+<tr><td>Both reaction targets</td><td>A likes post and dislikes comment</td><td>each in correct section with target context</td></tr>
+<tr><td>Cleared reaction</td><td>A clears post like</td><td>absent from current likes</td></tr>
+<tr><td>Actor spoof</td><td>A requests memberId=B</td><td>still only A activity</td></tr>
+<tr><td>Deleted parent</td><td>comment parent soft-deleted</td><td>neutral tombstone; no retained private text</td></tr>
+<tr><td>Optimization</td><td>1000-record fixture before/after indexes</td><td>same results; documented plan/query-count change</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

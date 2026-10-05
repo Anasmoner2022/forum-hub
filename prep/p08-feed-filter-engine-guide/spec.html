@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P08: Feed Filters, Aggregates and Pagination</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Support label, mine and liked filters; combine supplied filters with AND. A single selected label matches topics containing it.</li>
+<li>mine and liked derive member ID from an authenticated context, never a query parameter; guests requesting either receive an authentication error.</li>
+<li>liked means the member’s current like on a topic, excluding dislikes and cleared reactions; reply likes do not qualify a topic.</li>
+<li>Return one card per topic with public author, label names, reply count and both reaction counts; empty relations must return zeros.</li>
+<li>Sort newest first by created_at then ID descending; page is a positive integer; page size is 10, clamped maximum 50; invalid filters return a validation error.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>listFeed(db, viewer, filters)</td><td>Return {items, page, hasNext}; viewer is null or trusted member context.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Label</td><td>label=node</td><td>A and C</td></tr>
+<tr><td>Mine</td><td>viewer 1; mine=true</td><td>A and C</td></tr>
+<tr><td>Liked</td><td>viewer 2; liked=true</td><td>A only</td></tr>
+<tr><td>Combined</td><td>viewer 2; label=sql; liked=true</td><td>A only</td></tr>
+<tr><td>Guest ownership spoof</td><td>viewer null; mine=true; viewerId=1</td><td>authentication error</td></tr>
+<tr><td>Counts</td><td>A has 2 labels and 2 replies</td><td>replyCount=2; one A card</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

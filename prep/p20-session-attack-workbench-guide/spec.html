@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P20: Session Attack and Browser Defense Workbench</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Test session fixation, forged token, copied expired token, two simultaneous logins, logout replay and revoked-session reuse against SQLite-backed state.</li>
+<li>Rotate identifiers after authentication and privilege changes, store only token digests, enforce absolute and idle expiry; academy idle timeout is 30 minutes and absolute timeout 8 hours.</li>
+<li>Cover CSRF on every unsafe route, including login, logout and upload when present; do not accept an XSS defense as a substitute for CSRF.</li>
+<li>Use escaped plain-text rendering, parameterized SQL and safe generic errors; add nosniff, Referrer-Policy same-origin, frame restrictions and a CSP appropriate to a server-rendered app without inline scripts.</li>
+<li>Private responses use Cache-Control no-store. Tests inspect body, headers, logs and state; credentials, raw tokens and private paths must not leak.</li>
+<li>Document dependency review, locked installs and secret configuration; base password hashing is reused and measured rather than replaced with reversible encryption.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>hardenSession(db, session, event, clock)</td><td>Apply rotation/expiry rules for the stated lifecycle event.</td></tr>
+<tr><td>securityHeaders(responseKind)</td><td>Return the reviewed header policy for public versus private content.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Fixation</td><td>chosen cookie before successful login</td><td>fresh unrelated token; chosen token rejected</td></tr>
+<tr><td>Concurrent login</td><td>two valid logins at once</td><td>only one active server session afterward</td></tr>
+<tr><td>Idle expiry</td><td>31 minutes inactivity</td><td>401; server rejects token</td></tr>
+<tr><td>Forged CSRF</td><td>session cookie with attacker form</td><td>403; no write</td></tr>
+<tr><td>XSS/SQL input</td><td>hostile text and SQL-like string</td><td>literal text; data and schema intact</td></tr>
+<tr><td>Private response</td><td>GET account page</td><td>no-store and reviewed browser headers; no secrets</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

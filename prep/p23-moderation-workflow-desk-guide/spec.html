@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P23: Approval Queue, Role Requests, Reports and Categories</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Posts move pending→published or pending→rejected; published→deleted by authorized moderator/admin. New posts remain private until approved; moderators cannot self-approve.</li>
+<li>Author sees their own pending/rejected submission; moderators/admins see review queues; public readers, filters and counts include published content only.</li>
+<li>A member submits a pending moderator-role request; admin approves or rejects it, promotes/demotes moderators, and records actor, reason and time.</li>
+<li>Moderator can delete a post or file a report to admin; admin receives a reports inbox, responds and resolves reports. Store reporter, post reference or retained snapshot, reason, response and status.</li>
+<li>Admin can delete posts and comments and create/delete categories. Deleting a category attached to any retained post returns 409; no silent removal may leave a post without its required category.</li>
+<li>Every transition checks expected current state and permissions inside a transaction; competing decisions yield one winner and a 409 conflict, preserving an audit trail.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>reviewPost(db, actor, postId, decision, expectedVersion)</td><td>Apply one valid review and audit it atomically.</td></tr>
+<tr><td>decideRoleRequest(db, admin, requestId, decision)</td><td>Record decision and change role when approved.</td></tr>
+<tr><td>respondToReport(db, admin, reportId, response)</td><td>Persist admin response and resolution state.</td></tr>
+<tr><td>deleteCategory(db, admin, categoryId)</td><td>Reject retained-post references with conflict.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Approval</td><td>member creates pending post; moderator approves</td><td>public only after approval</td></tr>
+<tr><td>Self review</td><td>moderator tries to approve own post</td><td>403; stays pending</td></tr>
+<tr><td>Role request</td><td>member requests role; admin approves then demotes</td><td>request retained; role changes recorded</td></tr>
+<tr><td>Report response</td><td>moderator reports; admin responds/resolves</td><td>reporter sees persisted response</td></tr>
+<tr><td>Comment deletion</td><td>admin deletes existing comment</td><td>comment hidden; audit retained</td></tr>
+<tr><td>Category conflict</td><td>delete category referenced by a retained post</td><td>409; membership intact</td></tr>
+<tr><td>Review race</td><td>approve and reject same version concurrently</td><td>one success; one 409</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

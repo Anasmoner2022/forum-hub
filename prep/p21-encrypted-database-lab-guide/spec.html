@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P21: Optional Live Database Encryption and Recovery Lab</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>This is optional preparation for live database encryption. node:sqlite is ordinary SQLite; setting PRAGMA key there does not add encryption. Use the reviewed @journeyapps/sqlcipher driver in a Linux container, not an assumed Windows native install.</li>
+<li>The driver is callback-based and source-built. Teach its run/get/all/prepare/finalize/close APIs, awaitable wrappers, serialized transactions and OpenSSL/native toolchain dependencies before adapting the P06/P07 repository.</li>
+<li>Load a random 32-byte raw key from an operator-mounted secret file; use the documented SQLCipher raw-key syntax with strictly hex-encoded bytes before the first database read. Never concatenate an arbitrary passphrase into SQL.</li>
+<li>Prove PRAGMA cipher_version is nonempty and query schema immediately after keying to force verification. Missing/wrong keys and ordinary SQLite readers cannot read the protected database.</li>
+<li>Export a consistent disposable plaintext fixture into a separately keyed database using sqlcipher_export and preserve schema version metadata explicitly; compare every table count and all repository contract tests before discarding any copy.</li>
+<li>Use cipher_integrity_check and ordinary integrity/foreign-key checks, rehearse PRAGMA rekey on a disposable copy and prove old key fails while new key works. Backups remain encrypted or are protected separately; keys stay out of repository, logs, command arguments and image layers.</li>
+<li>Supply an encrypted-copy restore drill and a key-loss/rotation ownership procedure. Encryption at rest does not protect data from an authorized running process or replace password hashing.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>openEncryptedDatabase(path, secretPath)</td><td>Verify driver, load fixed-size key and confirm schema access.</td></tr>
+<tr><td>exportEncryptedCopy(source, targetPath, targetKey)</td><td>Export to a separate encrypted database and verify metadata/counts.</td></tr>
+<tr><td>rotateDatabaseKey(db, newKey)</td><td>Perform a documented disposable rekey and verify both old/new behavior.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Cipher engine</td><td>query cipher_version in clean Linux image</td><td>nonempty supported cipher version</td></tr>
+<tr><td>Correct key</td><td>key then read schema and fixture rows</td><td>expected schema and counts</td></tr>
+<tr><td>Wrong/missing key</td><td>open encrypted target with absent/different key</td><td>read fails; no silent plaintext fallback</td></tr>
+<tr><td>Ordinary reader</td><td>open target with node:sqlite</td><td>cannot read schema/data</td></tr>
+<tr><td>Repository parity</td><td>run P06/P07 contract cases on encrypted adapter</td><td>same public results and rollback behavior</td></tr>
+<tr><td>Export integrity</td><td>compare all table counts and checks after export</td><td>same data; integrity and FK checks pass</td></tr>
+<tr><td>Rotation/recovery</td><td>rekey disposable copy; test old/new keys; restore encrypted snapshot</td><td>old fails; new succeeds; recovered counts match</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

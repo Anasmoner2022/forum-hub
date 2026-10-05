@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Instructor delivery and assessment</title>
+<link rel="stylesheet" href="assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="index.html">Overview</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="coverage.html">Coverage</a>
+      <a href="instructor-guide.html" aria-current="page">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Curriculum index</a></p><h1>Instructor delivery and assessment</h1><p>Use the guides as build assignments, not reference-only reading and not finished solutions. Each preparation delivers a small working program or design, while each forum assignment combines already-demonstrated skills.</p><h2 id="section-1">Cohort release checklist</h2><ul>
+<li>Pilot P01–P12 with a learner who has the stated entry skills; revise time estimates from actual work.</li>
+<li>Pin and test the Node patch, Docker runtime and specialist package lockfiles for the academy’s supported hosts.</li>
+<li>Demonstrate both Google/GitHub live flows with approved test users; provide redacted setup worksheets and never distribute shared secrets in guide files.</li>
+<li>Verify JPEG/PNG/animated GIF corruption and resource-boundary fixtures with the chosen Sharp version.</li>
+<li>Rehearse local HTTPS trust on supported operating systems and container key permissions.</li>
+<li>Measure scrypt latency and memory using the specified work factors and default single-job concurrency.</li>
+<li>If selecting P21, verify the source-built SQLCipher binding inside Linux; Windows is a host, not a supported native binding target.</li>
+<li>Assign mentors for Go readiness and equivalent behavior gates when teams select Go.</li>
+<li>Freeze the coverage contract for the cohort and keep elective transports/providers outside mandatory scope.</li>
+</ul><h2 id="section-2">Preparation exit gate</h2><ul>
+<li>Artifact meets every specification row and verification case.</li>
+<li>Automated checks include forbidden/failure paths; no TODO or skipped required checks remain.</li>
+<li>Another learner reproduces it from the README, starting with a fresh test environment.</li>
+<li>The learner explains one invariant and repairs an introduced bug without following a full solution.</li>
+<li>Record readiness as assessed evidence, not as “guide generated” or “chapter read”.</li>
+</ul><h2 id="section-3">Team of 4–5</h2><p>Rotate ownership across storage, HTTP/authentication, rendering, operations and verification. Pair students across boundaries rather than permanently making one student the “database person”. Every member reviews code and demonstrates a component they did not initially write.</p><h2 id="section-4">F01 four-week build milestones</h2><div class="table-scroll" role="region" aria-label="Week after prep / Integration milestone / Gate" tabindex="0"><table data-columns="3">
+<caption>Week after prep / Integration milestone / Gate</caption>
+<thead><tr><th scope="col">Week after prep</th><th scope="col">Integration milestone</th><th scope="col">Gate</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Contracts, reviewed ERD, migrations, account and session integration</td><td>Schema/credential/session cases pass.</td></tr>
+<tr><td>2</td><td>Post/comment UI, categories and transactional communication</td><td>Guest/member, validation, atomicity and safe rendering cases pass.</td></tr>
+<tr><td>3</td><td>Post/comment reactions, feed filters, pagination and fault handling</td><td>Transitions, exact counts, ownership filters and fault cases pass.</td></tr>
+<tr><td>4</td><td>Docker, persistence/restore, complete audit and team maintenance exercise</td><td>Fresh-machine reproduction and complete regression evidence.</td></tr>
+</tbody></table></div><h2 id="section-5">One-week extension rhythm</h2><ol>
+<li>Day 1: confirm its prep gate, migration and integration contract.</li>
+<li>Days 2–3: integrate the prepared feature and its failure paths.</li>
+<li>Day 4: run direct-request, privacy and installed-feature regressions.</li>
+<li>Day 5: peer audit, clean reproduction and individual explanation.</li>
+</ol><h2 id="section-6">Assessment rubric</h2><div class="table-scroll" role="region" aria-label="Area / Weight / Evidence" tabindex="0"><table data-columns="3">
+<caption>Area / Weight / Evidence</caption>
+<thead><tr><th scope="col">Area</th><th scope="col">Weight</th><th scope="col">Evidence</th></tr></thead>
+<tbody>
+<tr><td>Required behavior</td><td>35%</td><td>All applicable requirement rows and concrete scenarios.</td></tr>
+<tr><td>Integrity and access control</td><td>25%</td><td>Transactions, role/ownership/recipient boundaries and negative checks.</td></tr>
+<tr><td>Verification and error handling</td><td>20%</td><td>Repeatable independent tests, safe failures and cleanup.</td></tr>
+<tr><td>Operations and reproducibility</td><td>10%</td><td>Docker, persistence, configuration and restore.</td></tr>
+<tr><td>Team understanding and maintainability</td><td>10%</td><td>Reviewed contributions and individual repair/explanation.</td></tr>
+</tbody></table></div><p>Critical failures block acceptance regardless of score: plaintext passwords, authentication bypass, private-content leak, silent partial writes, unreproducible Docker build or missing mandatory capability. Return the missing skill to the corresponding prep gate.</p><h2 id="section-7">Submission evidence</h2><ul>
+<li>Repository link and one chosen backend language.</li>
+<li>ERD/schema/data dictionary and immutable migrations.</li>
+<li>README with supported environments, configuration and run/test/container/restore commands.</li>
+<li>Requirement-to-evidence checklist with case outputs and state checks.</li>
+<li>Synthetic fixtures, no secrets, and redacted provider/certificate worksheets when applicable.</li>
+<li>Team contribution record and individual demonstration.</li>
+</ul><h2 id="section-8">Conditional integration audit</h2><div class="table-scroll" role="region" aria-label="Installed combination / Regression obligation" tabindex="0"><table data-columns="2">
+<caption>Installed combination / Regression obligation</caption>
+<thead><tr><th scope="col">Installed combination</th><th scope="col">Regression obligation</th></tr></thead>
+<tbody>
+<tr><td>SSO + security</td><td>Callback cookies, HTTPS origins, state/nonce binding and login work budgets.</td></tr>
+<tr><td>Images + moderation</td><td>Pending/deleted parents hide images; asset routes use current parent visibility.</td></tr>
+<tr><td>Editing + moderation</td><td>Published edits become pending and withdraw public visibility.</td></tr>
+<tr><td>Notifications + deletion</td><td>Tombstones reveal no retained private text.</td></tr>
+<tr><td>Activity + roles/ownership</td><td>Actor comes from session; inaccessible content never leaks through joined context.</td></tr>
+<tr><td>SQLCipher + existing repository</td><td>Same invariant/rollback tests and container/recovery evidence under the encrypted adapter.</td></tr>
+</tbody></table></div><h2 id="section-9">Maintaining the curriculum</h2><p>Edit the authored data in curriculum/ and rebuild with npm run build. Run npm run check afterward. Add prep before making a new technology mandatory. A content check validates curriculum structure and links; it does not certify completed student software. No Learning Hub catalog or completion record is changed by this workspace.</p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Cohort release checklist</a></li><li><a href="#section-2">Preparation exit gate</a></li><li><a href="#section-3">Team of 4–5</a></li><li><a href="#section-4">F01 four-week build milestones</a></li><li><a href="#section-5">One-week extension rhythm</a></li><li><a href="#section-6">Assessment rubric</a></li><li><a href="#section-7">Submission evidence</a></li><li><a href="#section-8">Conditional integration audit</a></li><li><a href="#section-9">Maintaining the curriculum</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

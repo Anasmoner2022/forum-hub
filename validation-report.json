@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-05T21:38:41.919Z",
+  "passed": true,
+  "guideCount": 32,
+  "htmlPages": 489,
+  "linksChecked": 9065,
+  "scaffoldSyntaxChecks": 124,
+  "coverageRows": 58,
+  "checks": [
+    "Semantic HTML, shared dark theme and complete chapter structure",
+    "Local links and balanced tags",
+    "Concrete cases, component self-checks and question counts",
+    "Prerequisite DAG and staged order",
+    "Requirement preparation mappings",
+    "Unfinished JavaScript scaffold syntax"
+  ],
+  "limitations": [
+    "No completed student solutions are supplied or certified",
+    "External URLs, live providers and native specialist packages require instructor preflight"
+  ],
+  "errors": []
+}

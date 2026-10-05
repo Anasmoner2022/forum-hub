@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P15: Google OIDC, GitHub Identity and Account Linking</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Register test applications with both providers during preparation, configure exact callback URIs and test users, and keep client secrets outside source control. Teacher supplies a tested fallback cohort account when setup is unavailable.</li>
+<li>Google uses OpenID Connect: verify the ID-token signature with jose and discovery JWKS, permitted algorithms, issuer, audience, expiry and login-attempt nonce; key identity by issuer+sub.</li>
+<li>GitHub uses OAuth access token to retrieve the authenticated user; key by provider+numeric id, not mutable login name. Read /user/emails only with needed scope and select a verified email if one is required.</li>
+<li>Store a unique provider+subject mapping to a local member. First login creates a member after username onboarding; repeat login reuses it; no verified email means require local onboarding rather than invent one.</li>
+<li>Never auto-link by matching email. Linking requires an existing authenticated member, recent reauthentication and a separately bound link intent; the provider identity cannot already belong to another member.</li>
+<li>Issue the same P10 forum session after successful identity resolution. Access and refresh tokens are not rendered or placed in browser storage; discard provider tokens after profile use unless a documented server-side use requires retention.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>resolveGoogleIdentity(tokenResponse, attempt, config)</td><td>Verify Google claims and return {provider,subject,email,emailVerified}.</td></tr>
+<tr><td>resolveGithubIdentity(accessToken, config)</td><td>Return stable GitHub ID with explicitly verified contact data.</td></tr>
+<tr><td>findOrCreateMember(db, identity, onboarding)</td><td>Resolve a unique mapping; never auto-link by email.</td></tr>
+<tr><td>linkIdentity(db, authenticatedMember, identity, linkIntent)</td><td>Attach only after recent reauthentication and conflict checks.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Both providers</td><td>fresh Google and GitHub test identities</td><td>each can create and later log into a local account</td></tr>
+<tr><td>Repeat login</td><td>same provider+subject twice</td><td>same local member; no duplicate</td></tr>
+<tr><td>Bad Google claims</td><td>wrong issuer/audience/nonce or expired token</td><td>rejected; no session</td></tr>
+<tr><td>Private GitHub email</td><td>/user email null; verified /user/emails available</td><td>safe onboarding with verified contact</td></tr>
+<tr><td>Email collision</td><td>new provider subject matches another member email</td><td>no automatic link; explicit existing-account proof required</td></tr>
+<tr><td>Link conflict</td><td>identity already linked to member A; member B attempts link</td><td>409; mapping stays A</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

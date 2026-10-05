@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — F01: Forum: Full Stack Community</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Backend choice</h2><p>A team of 4–5 students chooses one backend for the shared forum repository: JavaScript on Node.js or Go. The choice applies consistently to the base and its extensions. The behavioral contract and assessment are the same. These guided chapters teach the Node.js route. Go teams must satisfy the equivalent preparation checks before starting and already know Go syntax, modules, errors and its standard library.</p><p>Node route: core node:http/node:https, node:sqlite, node:crypto, node:test and semantic HTML. No frontend frameworks or ORM; Busboy, Sharp and jose are allowed for prepared specialist tasks. Go route: net/http, html/template, database/sql with an approved SQLite driver, crypto/rand, a reviewed password-hash package and testing. See the language policy for exact package and readiness rules.</p><h2 id="section-2">Required behavior</h2><div class="table-scroll" role="region" aria-label="ID / Contract / Completed preparation / Verification / Source or academy policy" tabindex="0"><table data-columns="5">
+<caption>ID / Contract / Completed preparation / Verification / Source or academy policy</caption>
+<thead><tr><th scope="col">ID</th><th scope="col">Contract</th><th scope="col">Completed preparation</th><th scope="col">Verification</th><th scope="col">Source or academy policy</th></tr></thead>
+<tbody>
+<tr><td>B01</td><td>Use SQLite persistence with directly written CREATE, INSERT and SELECT queries; data survives application and container replacement.</td><td><a href="../../prep/p05-sqlite-migration-workbench-guide/index.html">P05: SQLite Schema and Migration Workbench</a><br><a href="../../prep/p06-topic-repository-guide/index.html">P06: Topic and Reply Repository</a><br><a href="../../prep/p12-docker-persistence-lab-guide/index.html">P12: Docker Images, Volumes and Restore Drill</a></td><td>Inspect SQL and reproduce restart persistence.</td><td>Source requirement</td></tr>
+<tr><td>B02</td><td>Submit an ERD, relational schema, data dictionary, key constraints and deletion policy.</td><td><a href="../../prep/p04-community-erd-design-guide/index.html">P04: Community ERD and Relational Schema Design</a><br><a href="../../prep/p05-sqlite-migration-workbench-guide/index.html">P05: SQLite Schema and Migration Workbench</a></td><td>Peer maps every stored feature to a reviewed relation.</td><td>Academy: promoted from source recommendation</td></tr>
+<tr><td>B03</td><td>Registration requires email, username and password; normalize under P09 policy; reject duplicate normalized email and username with 409 and invalid fields with 422.</td><td><a href="../../prep/p09-credential-vault-guide/index.html">P09: Registration and Password Hashing Vault</a></td><td>Race duplicate registration: one member and one conflict.</td><td>Source requirement</td></tr>
+<tr><td>B04</td><td>Hash every password with the prepared versioned scrypt record or a preapproved equivalent; never store or log plaintext credentials.</td><td><a href="../../prep/p09-credential-vault-guide/index.html">P09: Registration and Password Hashing Vault</a></td><td>Inspect DB/logs and verify correct and incorrect credentials.</td><td>Academy: source bonus promoted to baseline</td></tr>
+<tr><td>B05</td><td>Login verifies credentials, issues an opaque cookie session, permits only one active session per member, enforces an 8-hour server expiry and supports POST logout.</td><td><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a></td><td>Second browser login revokes first; copied expired/revoked tokens fail.</td><td>Source requirement</td></tr>
+<tr><td>B06</td><td>Only authenticated members may create posts and comments; guests may read public posts and comments. Author identity comes from the session.</td><td><a href="../../prep/p06-topic-repository-guide/index.html">P06: Topic and Reply Repository</a><br><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a></td><td>Direct guest writes fail without persisted changes.</td><td>Source requirement</td></tr>
+<tr><td>B07</td><td>A post has a nonblank 1–120-code-point title, 1–5000-code-point body and 1–5 distinct existing categories; comment body is 1–5000. Creation and category linkage are atomic.</td><td><a href="../../prep/p03-html-form-board-guide/index.html">P03: HTML Forms and Safe Rendering Board</a><br><a href="../../prep/p06-topic-repository-guide/index.html">P06: Topic and Reply Repository</a></td><td>An invalid final category produces no partial post.</td><td>Source categories plus academy field bounds</td></tr>
+<tr><td>B08</td><td>Authenticated members may like or dislike both posts and comments. One current reaction per member-target; repeat set is idempotent, opposite set switches, clear removes.</td><td><a href="../../prep/p07-reaction-state-machine-guide/index.html">P07: Reaction State Machine and Transactions</a><br><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a></td><td>All nine state transitions and both target types pass.</td><td>Source requirement</td></tr>
+<tr><td>B09</td><td>Every visitor sees correct like and dislike counts, including zeros. Multiple categories/comments must not multiply counts.</td><td><a href="../../prep/p07-reaction-state-machine-guide/index.html">P07: Reaction State Machine and Transactions</a><br><a href="../../prep/p08-feed-filter-engine-guide/index.html">P08: Feed Filters, Aggregates and Pagination</a></td><td>Two-category, three-comment fixture has exact hand-calculated counts.</td><td>Source requirement</td></tr>
+<tr><td>B10</td><td>Filter posts by category, the logged-in member’s created posts, and the logged-in member’s currently liked posts. Combined filters use AND; private filters require login.</td><td><a href="../../prep/p08-feed-filter-engine-guide/index.html">P08: Feed Filters, Aggregates and Pagination</a><br><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a></td><td>Guest mine/liked requests fail; client-supplied member ID is ignored.</td><td>Source requirement</td></tr>
+<tr><td>B11</td><td>Use native HTML and server rendering without React, Angular, Vue or other frontend frameworks. Provide labelled forms, usable empty/error pages and safe escaped text.</td><td><a href="../../prep/p03-html-form-board-guide/index.html">P03: HTML Forms and Safe Rendering Board</a></td><td>Keyboard workflow and hostile-text fixture pass.</td><td>Source requirement</td></tr>
+<tr><td>B12</td><td>Handle method/path/input/domain/server/storage errors with the prepared status policy; never expose SQL, stack traces, passwords or private paths.</td><td><a href="../../prep/p02-http-message-lab-guide/index.html">P02: HTTP Message and Bounded Body Lab</a><br><a href="../../prep/p11-failure-and-team-lab-guide/index.html">P11: Failure Handling, Tests and Team Integration</a></td><td>Malformed requests and injected faults leave the server usable.</td><td>Source requirement</td></tr>
+<tr><td>B13</td><td>Use Docker with locked dependencies, supported platform documentation, a non-root application process and persistent database directory.</td><td><a href="../../prep/p01-node-runtime-lab-guide/index.html">P01: Node Runtime and Package Lab</a><br><a href="../../prep/p12-docker-persistence-lab-guide/index.html">P12: Docker Images, Volumes and Restore Drill</a></td><td>A teammate builds and replaces the container from the README.</td><td>Source requirement</td></tr>
+<tr><td>B14</td><td>Protect unsafe forms with CSRF and route authorization; private responses use an explicit cache policy. Maintain isolated unit and integration checks.</td><td><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a><br><a href="../../prep/p11-failure-and-team-lab-guide/index.html">P11: Failure Handling, Tests and Team Integration</a></td><td>Forged form, forged member ID and failed transaction cause no write.</td><td>Academy baseline safety and verification</td></tr>
+<tr><td>B15</td><td>Document modular contracts, configuration, seed data, backup/restore and each team member’s reviewed contribution.</td><td><a href="../../prep/p01-node-runtime-lab-guide/index.html">P01: Node Runtime and Package Lab</a><br><a href="../../prep/p11-failure-and-team-lab-guide/index.html">P11: Failure Handling, Tests and Team Integration</a><br><a href="../../prep/p12-docker-persistence-lab-guide/index.html">P12: Docker Images, Volumes and Restore Drill</a></td><td>Every member can change and explain a component they did not originally author.</td><td>Academy assessment policy</td></tr>
+</tbody></table></div><h2 id="section-3">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>dispatch(request, context)</td><td>Map the documented routes to trusted guards and prepared services.</td></tr>
+<tr><td>createPost(context, input)</td><td>Reuse P06 atomic creation with a session-derived author.</td></tr>
+<tr><td>createComment(context, postId, body)</td><td>Reuse prepared reply service with authorization.</td></tr>
+<tr><td>setForumReaction(context, target, value)</td><td>Apply P07 contract to posts and comments.</td></tr>
+<tr><td>getForumFeed(context, filters)</td><td>Return P08 public cards with current-user filter semantics.</td></tr>
+</tbody></table></div><h2 id="section-4">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Registration race</td><td>same normalized email registered concurrently</td><td>one account; other request 409</td></tr>
+<tr><td>Session replacement</td><td>two browser logins for one member</td><td>only latest active token usable</td></tr>
+<tr><td>Public access</td><td>guest opens post with comments and counts</td><td>200; correct public content</td></tr>
+<tr><td>Write protection</td><td>guest or forged author submits post/comment/reaction</td><td>401/403; no write</td></tr>
+<tr><td>Atomic post</td><td>categories [valid,missing]</td><td>validation/not-found response; no partial post</td></tr>
+<tr><td>Post/comment reactions</td><td>repeat like, switch dislike, clear on each target</td><td>exact counts; one current reaction</td></tr>
+<tr><td>Filters</td><td>category+liked; mine from another memberId param</td><td>correct AND result; member comes from session</td></tr>
+<tr><td>Hostile input</td><td>HTML and SQL-like text</td><td>safe literal rendering; schema intact</td></tr>
+<tr><td>Fault recovery</td><td>malformed body and injected storage fault</td><td>safe status/message; next health request succeeds</td></tr>
+<tr><td>Container persistence</td><td>build, create data, replace container</td><td>data unchanged; non-root process; successful separate restore</td></tr>
+</tbody></table></div><h2 id="section-5">Out of scope</h2><p>Only the named assignment and installed-extension integration policies are required. Extra providers, rich-text editors, chat, email delivery, search engines, multiple replicas and push transports remain elective. Do not add an unprepared dependency to meet a mandatory requirement.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Backend choice</a></li><li><a href="#section-2">Required behavior</a></li><li><a href="#section-3">Inputs and output contracts</a></li><li><a href="#section-4">Error and boundary cases</a></li><li><a href="#section-5">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

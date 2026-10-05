@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — F06: Forum Advanced Features: Notifications, Activity and Editing</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Backend choice</h2><p>A team of 4–5 students chooses one backend for the shared forum repository: JavaScript on Node.js or Go. The choice applies consistently to the base and its extensions. The behavioral contract and assessment are the same. These guided chapters teach the Node.js route. Go teams must satisfy the equivalent preparation checks before starting and already know Go syntax, modules, errors and its standard library.</p><p>Node route: core node:http/node:https, node:sqlite, node:crypto, node:test and semantic HTML. No frontend frameworks or ORM; Busboy, Sharp and jose are allowed for prepared specialist tasks. Go route: net/http, html/template, database/sql with an approved SQLite driver, crypto/rand, a reviewed password-hash package and testing. See the language policy for exact package and readiness rules.</p><h2 id="section-2">Required behavior</h2><div class="table-scroll" role="region" aria-label="ID / Contract / Completed preparation / Verification / Source or academy policy" tabindex="0"><table data-columns="5">
+<caption>ID / Contract / Completed preparation / Verification / Source or academy policy</caption>
+<thead><tr><th scope="col">ID</th><th scope="col">Contract</th><th scope="col">Completed preparation</th><th scope="col">Verification</th><th scope="col">Source or academy policy</th></tr></thead>
+<tbody>
+<tr><td>V01</td><td>Notify post owners when other members comment or change a post reaction to like/dislike; do not notify self-actions or unchanged repeated reactions.</td><td><a href="../../prep/p07-reaction-state-machine-guide/index.html">P07: Reaction State Machine and Transactions</a><br><a href="../../prep/p25-notification-event-inbox-guide/index.html">P25: Transactional Events and Notification Inbox</a></td><td>One correct recipient notification per meaningful change.</td><td>Source requirement</td></tr>
+<tr><td>V02</td><td>Persist notification intent with the domain change, deliver idempotently and authorize recipient-only reads/read-marking.</td><td><a href="../../prep/p25-notification-event-inbox-guide/index.html">P25: Transactional Events and Notification Inbox</a></td><td>Rollback creates no event; dispatcher replay creates no duplicate.</td><td>Academy event integrity detail</td></tr>
+<tr><td>V03</td><td>Provide durable offline notification inbox with read/unread state; normal refresh is the required transport and optional real-time delivery must have separate completed prep.</td><td><a href="../../prep/p25-notification-event-inbox-guide/index.html">P25: Transactional Events and Notification Inbox</a></td><td>Offline recipient sees committed notifications on next visit.</td><td>Academy delivery contract; source does not mandate a push protocol</td></tr>
+<tr><td>V04</td><td>Activity page shows the logged-in user’s authored posts and where they currently liked/disliked posts or comments.</td><td><a href="../../prep/p08-feed-filter-engine-guide/index.html">P08: Feed Filters, Aggregates and Pagination</a><br><a href="../../prep/p26-activity-query-observatory-guide/index.html">P26: Personal Activity Queries and Index Observatory</a></td><td>Cleared/switched reactions move to correct current sections.</td><td>Source requirement</td></tr>
+<tr><td>V05</td><td>Activity page shows where and what the user commented, including comment text plus parent post context and a permitted link or neutral tombstone.</td><td><a href="../../prep/p24-content-edit-lifecycle-guide/index.html">P24: Owned Editing, Deletion and Stale Update Conflicts</a><br><a href="../../prep/p26-activity-query-observatory-guide/index.html">P26: Personal Activity Queries and Index Observatory</a></td><td>Comment fixture includes both content and parent context.</td><td>Source requirement</td></tr>
+<tr><td>V06</td><td>Provide owner-only edit/remove sections for both posts and comments, with server ownership checks and CSRF protection.</td><td><a href="../../prep/p10-session-cookie-gateway-guide/index.html">P10: Session Cookies, Route Guards and CSRF</a><br><a href="../../prep/p24-content-edit-lifecycle-guide/index.html">P24: Owned Editing, Deletion and Stale Update Conflicts</a></td><td>Nonowner spoof fails; owner edits/removes both content types.</td><td>Source requirement</td></tr>
+<tr><td>V07</td><td>Reject stale edits with 409 using expected versions; soft deletion applies the prepared child, reaction, asset and notification visibility policy.</td><td><a href="../../prep/p24-content-edit-lifecycle-guide/index.html">P24: Owned Editing, Deletion and Stale Update Conflicts</a></td><td>Two editors cannot silently overwrite; deleted parents do not leak.</td><td>Academy concurrency/lifecycle detail</td></tr>
+<tr><td>V08</td><td>If moderation is installed, editing published content requeues it for review and withdraws public/asset visibility until approved; privileged overrides follow its matrix.</td><td><a href="../../prep/p22-role-policy-gateway-guide/index.html">P22: Roles, Ownership and Permission Matrix</a><br><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a><br><a href="../../prep/p24-content-edit-lifecycle-guide/index.html">P24: Owned Editing, Deletion and Stale Update Conflicts</a></td><td>Moderated edit becomes pending; no public leak.</td><td>Conditional integration requirement</td></tr>
+<tr><td>V09</td><td>Use session-derived activity ownership, stable bounded pagination, correct SQL and justified indexes; retain all installed-feature tests.</td><td><a href="../../prep/p11-failure-and-team-lab-guide/index.html">P11: Failure Handling, Tests and Team Integration</a><br><a href="../../prep/p26-activity-query-observatory-guide/index.html">P26: Personal Activity Queries and Index Observatory</a></td><td>Actor spoof fails; exact rows unchanged by index optimization.</td><td>Academy privacy/query detail</td></tr>
+</tbody></table></div><h2 id="section-3">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>editForumContent(context, target, input, expectedVersion)</td><td>Apply owner and installed moderation policy with stale conflict handling.</td></tr>
+<tr><td>getNotificationInbox(context, page)</td><td>Read only current recipient notifications.</td></tr>
+<tr><td>getPersonalActivity(context, section, page)</td><td>Derive member from session and return prepared activity DTOs.</td></tr>
+</tbody></table></div><h2 id="section-4">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Comment/like/dislike</td><td>B acts on A’s post</td><td>A receives correct durable notifications</td></tr>
+<tr><td>No-op/self</td><td>repeat same reaction; A acts on own post</td><td>no extra notification</td></tr>
+<tr><td>Offline/retry</td><td>A offline; dispatch same event twice</td><td>one notification available on return</td></tr>
+<tr><td>Privacy</td><td>B requests A inbox/activity by supplied IDs</td><td>no A data; no state changes</td></tr>
+<tr><td>Activity context</td><td>authored post/comment plus both target reactions</td><td>correct current sections and parent context</td></tr>
+<tr><td>Edit ownership/staleness</td><td>nonowner edit then stale owner edit</td><td>403 then 409; latest content intact</td></tr>
+<tr><td>Remove both types</td><td>owner removes post and separate comment</td><td>public content hidden; lifecycle followed</td></tr>
+<tr><td>Installed moderation</td><td>edit published post when F05 installed</td><td>pending; no public/asset leak</td></tr>
+<tr><td>Rollback/index regression</td><td>failed domain write; optimize activity indexes</td><td>no phantom event; exact results retained</td></tr>
+</tbody></table></div><h2 id="section-5">Out of scope</h2><p>Only the named assignment and installed-extension integration policies are required. Extra providers, rich-text editors, chat, email delivery, search engines, multiple replicas and push transports remain elective. Do not add an unprepared dependency to meet a mandatory requirement.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Backend choice</a></li><li><a href="#section-2">Required behavior</a></li><li><a href="#section-3">Inputs and output contracts</a></li><li><a href="#section-4">Error and boundary cases</a></li><li><a href="#section-5">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

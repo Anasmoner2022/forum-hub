@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — F05: Forum Moderation: Roles and Review Workflows</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Backend choice</h2><p>A team of 4–5 students chooses one backend for the shared forum repository: JavaScript on Node.js or Go. The choice applies consistently to the base and its extensions. The behavioral contract and assessment are the same. These guided chapters teach the Node.js route. Go teams must satisfy the equivalent preparation checks before starting and already know Go syntax, modules, errors and its standard library.</p><p>Node route: core node:http/node:https, node:sqlite, node:crypto, node:test and semantic HTML. No frontend frameworks or ORM; Busboy, Sharp and jose are allowed for prepared specialist tasks. Go route: net/http, html/template, database/sql with an approved SQLite driver, crypto/rand, a reviewed password-hash package and testing. See the language policy for exact package and readiness rules.</p><h2 id="section-2">Required behavior</h2><div class="table-scroll" role="region" aria-label="ID / Contract / Completed preparation / Verification / Source or academy policy" tabindex="0"><table data-columns="5">
+<caption>ID / Contract / Completed preparation / Verification / Source or academy policy</caption>
+<thead><tr><th scope="col">ID</th><th scope="col">Contract</th><th scope="col">Completed preparation</th><th scope="col">Verification</th><th scope="col">Source or academy policy</th></tr></thead>
+<tbody>
+<tr><td>M01</td><td>Implement four access types: guests read published content; users create/comment/react; moderators review/delete/report posts; admins administer roles, reports, posts/comments and categories.</td><td><a href="../../prep/p22-role-policy-gateway-guide/index.html">P22: Roles, Ownership and Permission Matrix</a></td><td>Complete matrix tested through direct requests.</td><td>Source requirement</td></tr>
+<tr><td>M02</td><td>Hold new posts pending until authorized approval; publish or reject through auditable transitions; authors see their own pending status and moderators cannot self-approve.</td><td><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Pending content is public only after approved transition.</td><td>Source requirement</td></tr>
+<tr><td>M03</td><td>Moderators can delete existing posts and report posts to administrators with a stored reason.</td><td><a href="../../prep/p22-role-policy-gateway-guide/index.html">P22: Roles, Ownership and Permission Matrix</a><br><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Delete and report routes enforce moderator role.</td><td>Source requirement</td></tr>
+<tr><td>M04</td><td>Users can request moderator status; admin can approve/reject the request and promote or demote users to/from moderator.</td><td><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Role request and audited decision persist.</td><td>Source requirement</td></tr>
+<tr><td>M05</td><td>Admins receive reports, respond to them and resolve them; reporter can read the persisted response.</td><td><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Report→admin inbox→response→resolution demonstrated.</td><td>Source requirement</td></tr>
+<tr><td>M06</td><td>Admins can delete both posts and comments. Deleted content is excluded from public views.</td><td><a href="../../prep/p22-role-policy-gateway-guide/index.html">P22: Roles, Ownership and Permission Matrix</a><br><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Direct comment deletion by admin succeeds; ordinary member denied.</td><td>Source requirement</td></tr>
+<tr><td>M07</td><td>Admins can create and delete categories; an attached category deletion returns 409 under the prepared retention policy.</td><td><a href="../../prep/p06-topic-repository-guide/index.html">P06: Topic and Reply Repository</a><br><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Unused category deleted; attached category remains intact.</td><td>Source requirement</td></tr>
+<tr><td>M08</td><td>Bootstrap admin through the operator procedure; public registration cannot assign privileged roles; protect the final admin.</td><td><a href="../../prep/p22-role-policy-gateway-guide/index.html">P22: Roles, Ownership and Permission Matrix</a></td><td>Role spoof and final-admin race fail safely.</td><td>Academy privilege lifecycle detail</td></tr>
+<tr><td>M09</td><td>Read current roles on every action, apply demotion immediately, guard all detail/feed/filter/count routes and installed image assets against pending/deleted leakage.</td><td><a href="../../prep/p22-role-policy-gateway-guide/index.html">P22: Roles, Ownership and Permission Matrix</a><br><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Old demoted cookie and guessed restricted IDs fail.</td><td>Academy complete visibility detail</td></tr>
+<tr><td>M10</td><td>Enforce expected-state/version transitions atomically with actor/reason/time audit; conflicting reviews return 409; retain F01 and installed-feature checks.</td><td><a href="../../prep/p11-failure-and-team-lab-guide/index.html">P11: Failure Handling, Tests and Team Integration</a><br><a href="../../prep/p23-moderation-workflow-desk-guide/index.html">P23: Approval Queue, Role Requests, Reports and Categories</a></td><td>Simultaneous approve/reject has one winner and one conflict.</td><td>Academy workflow integrity detail</td></tr>
+</tbody></table></div><h2 id="section-3">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>moderateForumPost(context, postId, decision, expectedVersion)</td><td>Reuse prepared permission and review state rules.</td></tr>
+<tr><td>manageModeratorRequest(context, requestId, decision)</td><td>Perform an audited admin decision.</td></tr>
+<tr><td>manageReport(context, reportId, response)</td><td>Store authorized admin response and status.</td></tr>
+</tbody></table></div><h2 id="section-4">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Guest/member separation</td><td>direct privileged request from guest/member</td><td>401/403; unchanged state</td></tr>
+<tr><td>Prepublication</td><td>create then approve post</td><td>pending hidden; approved public</td></tr>
+<tr><td>Self approval</td><td>moderator submits and reviews own post</td><td>403</td></tr>
+<tr><td>Role lifecycle</td><td>request, approve, demote, reuse old cookie</td><td>audit persists; demoted action denied</td></tr>
+<tr><td>Reports</td><td>moderator report; admin response/resolution</td><td>reporter sees response</td></tr>
+<tr><td>Admin deletion</td><td>admin deletes post and comment</td><td>both hidden publicly</td></tr>
+<tr><td>Categories</td><td>admin creates, deletes unused, attempts attached delete</td><td>success, success, 409</td></tr>
+<tr><td>Conflict/leak audit</td><td>concurrent review and guessed pending asset when installed</td><td>one review wins; restricted content denied</td></tr>
+</tbody></table></div><h2 id="section-5">Out of scope</h2><p>Only the named assignment and installed-extension integration policies are required. Extra providers, rich-text editors, chat, email delivery, search engines, multiple replicas and push transports remain elective. Do not add an unprepared dependency to meet a mandatory requirement.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Backend choice</a></li><li><a href="#section-2">Required behavior</a></li><li><a href="#section-3">Inputs and output contracts</a></li><li><a href="#section-4">Error and boundary cases</a></li><li><a href="#section-5">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P11: Failure Handling, Tests and Team Integration</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Classify malformed input (400), unauthenticated (401), forbidden/CSRF (403), missing object (404), method mismatch (405), conflict (409), oversized body (413), unsupported type (415), validation (422), rate limit (429 later), unexpected fault (500) and temporary DB unavailability (503).</li>
+<li>Use node:test and node:assert/strict; learn assertions, setup/teardown, temp directories, injected clock, deterministic seeds and awaited asynchronous tests.</li>
+<li>Inject a database error and renderer error; user responses must omit stack traces, SQL, paths and credentials; a sanitized log retains a request ID.</li>
+<li>Test domain modules independently and real HTTP+SQLite integration. Each test owns its database and closes connections and servers even after failure.</li>
+<li>Teams practise feature branches, review, one schema migration owner per change, a shared API contract and conflict resolution; each student explains and modifies a module they did not originally write.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>classifyError(error)</td><td>Return a safe status/code without exposing the internal error.</td></tr>
+<tr><td>createTestContext(options)</td><td>Create disposable storage, clock and cleanup handles.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Domain validation</td><td>invalid title</td><td>422; no row</td></tr>
+<tr><td>Injected database fault</td><td>repository rejects with private SQL text</td><td>503 or safe 500 according to classified fault; no SQL in response</td></tr>
+<tr><td>Renderer fault</td><td>renderer throws with a file path</td><td>safe 500; request ID in sanitized log</td></tr>
+<tr><td>Test isolation</td><td>run suite twice</td><td>same fixture counts; no port leaks</td></tr>
+<tr><td>Async rejection</td><td>rejected repository promise</td><td>awaited assertion observes failure</td></tr>
+<tr><td>Review drill</td><td>teammate changes a service return field</td><td>contract test detects the integration break</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

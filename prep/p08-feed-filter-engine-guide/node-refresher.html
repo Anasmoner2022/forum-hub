@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Node.js and subject refresher — P08: Feed Filters, Aggregates and Pagination</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Node.js and subject refresher</h1><p>Write the expected topic IDs before writing a join. A label relation and a reply relation can multiply rows; aggregate each independently or use membership tests.</p><pre><code>Fixture:
+Topic A: author 1, labels node/sql, 2 replies, member 2 likes
+Topic B: author 2, label sql, 0 replies, member 2 dislikes
+Topic C: author 1, label node, 1 reply, member 2 has no reaction
+TODO: calculate every filter result by hand.</code></pre><h2 id="section-1">Project-specific trace</h2><p>Before implementing anything, predict the “Label” case: input label=node, result A and C. Then contrast it with “Counts”.</p><h2 id="section-2">Keep the boundary visible</h2><ul>
+<li>listFeed(db, viewer, filters): Return {items, page, hasNext}; viewer is null or trusted member context.</li>
+</ul><p>The short example illustrates an API or a reasoning tool. It does not implement the required service. Return to the mandatory reading if you cannot explain the example’s inputs, side effects or possible errors.</p><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Project-specific trace</a></li><li><a href="#section-2">Keep the boundary visible</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

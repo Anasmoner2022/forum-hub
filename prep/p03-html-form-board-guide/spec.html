@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P03: HTML Forms and Safe Rendering Board</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>GET /messages displays messages; GET /messages/new displays a labelled form; POST /messages accepts URL-encoded title and body; GET /messages/:id displays one item.</li>
+<li>Require title length 1–120 and body length 1–5000 Unicode code points after trimming. Invalid forms return 422 and preserve safe entered values.</li>
+<li>Successful creation redirects with 303 to the new detail page; refreshing the detail page must not create another message.</li>
+<li>Escape untrusted data in HTML text and quoted attributes; allow generated internal links only; render plain text rather than user HTML.</li>
+<li>Use headings, labels, fieldsets where needed, keyboard navigation, error text tied to fields and a meaningful empty state. Storage may reset on restart.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>renderMessagePage(message)</td><td>Return HTML with every user-controlled value safely rendered.</td></tr>
+<tr><td>validateMessage(fields)</td><td>Return normalized data or a field-error object.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Creation</td><td>POST title=Hello&amp;body=World</td><td>303; detail page shows Hello and World</td></tr>
+<tr><td>Blank title</td><td>title spaces only</td><td>422; field error; no message</td></tr>
+<tr><td>Boundary title</td><td>120 then 121 Unicode code points</td><td>accepted then rejected</td></tr>
+<tr><td>Hostile body</td><td>&lt;img src=x onerror=alert(1)&gt;</td><td>visible literal text; no execution</td></tr>
+<tr><td>Refresh</td><td>refresh the redirected detail page</td><td>no duplicate</td></tr>
+<tr><td>Missing item</td><td>GET /messages/999999</td><td>404 page; usable navigation</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

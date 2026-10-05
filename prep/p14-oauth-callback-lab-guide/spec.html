@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P14: OAuth Authorization Code, State and PKCE Lab</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Create /auth/mock/start and /auth/mock/callback plus fake provider /authorize and /token endpoints on a separate local port.</li>
+<li>Generate unpredictable state and a PKCE verifier; store their digests/values as appropriate in a short-lived server login attempt bound to an HttpOnly SameSite=Lax browser cookie. Attempt TTL is 5 minutes.</li>
+<li>Send an S256 code challenge; exchange a one-time code server-to-server with the verifier and exact registered redirect URI. Client secrets remain server-side.</li>
+<li>Callback requires matching state, browser binding and unexpired unused attempt. Atomically claim/consume the attempt before exchange; a replay cannot exchange again.</li>
+<li>Handle user denial, bad state, expired attempts and token failure without creating a session. Local fake HTTP is a learning fixture; real-provider endpoints use HTTPS.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>beginLoginAttempt(db, browserId, provider, clock)</td><td>Store a short-lived attempt and return the authorization URL.</td></tr>
+<tr><td>consumeLoginAttempt(db, browserId, state, clock)</td><td>Claim exactly one valid attempt or reject.</td></tr>
+<tr><td>exchangeCode(provider, code, verifier)</td><td>Resolve token response with no automatic replay.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Successful round trip</td><td>matching browser, state, code and verifier</td><td>one token result</td></tr>
+<tr><td>Wrong state</td><td>alter one state character</td><td>400; no exchange</td></tr>
+<tr><td>Cross-browser</td><td>valid state in a different browser</td><td>400; no exchange</td></tr>
+<tr><td>Replay</td><td>same callback twice</td><td>second rejected; one exchange total</td></tr>
+<tr><td>Expiry</td><td>advance attempt clock by 5 minutes</td><td>rejected</td></tr>
+<tr><td>Bad PKCE</td><td>wrong verifier at token endpoint</td><td>provider rejection; no app session</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

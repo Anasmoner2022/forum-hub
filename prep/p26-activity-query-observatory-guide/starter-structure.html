@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Starter structure — P26: Personal Activity Queries and Index Observatory</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Starter structure</h1><p>Copy the starter files into a separate student implementation folder, or download them through these local links. This directory contains guide content and a deliberately unfinished scaffold. The business logic is yours to implement.</p><h2 id="section-1">Starter files supplied</h2><ul><li><a href="starter/package.json">package.json</a></li><li><a href="starter/src/project.js">src/project.js</a></li><li><a href="starter/src/run.js">src/run.js</a></li><li><a href="starter/src/scenario.js">src/scenario.js</a></li><li><a href="starter/test/project.test.js">test/project.test.js</a></li><li><a href="starter/.gitignore">.gitignore</a></li><li><a href="starter/docs/decisions.md">docs/decisions.md</a></li></ul><pre><code>package.json
+src/project.js
+src/run.js
+src/scenario.js
+test/project.test.js
+.gitignore
+docs/decisions.md</code></pre><h2 id="section-2">Additional files you create</h2><ul>
+<li>src/activity-queries.js</li>
+<li>templates/activity.html</li>
+<li>docs/query-plans.md</li>
+<li>fixtures/activity.json</li>
+</ul><h2 id="section-3">package.json</h2><pre><code>{
+  &quot;name&quot;: &quot;student-p26-activity-query-observatory&quot;,
+  &quot;private&quot;: true,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;&gt;=24.15.0 &lt;25&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node src/run.js&quot;,
+    &quot;test&quot;: &quot;node --test&quot;
+  }
+}
+</code></pre><h2 id="section-4">src/project.js</h2><pre><code>// Return only the actor’s paginated public/authorized activity DTOs.
+export async function listActivity(db, actor, section, page) {
+  // TODO: implement this project's contract; see specification and guided chapters.
+  throw new Error('TODO: listActivity');
+}
+
+// Return query-plan evidence for the documented queries.
+export async function inspectActivityPlans(db) {
+  // TODO: implement this project's contract; see specification and guided chapters.
+  throw new Error('TODO: inspectActivityPlans');
+}
+</code></pre><h2 id="section-5">src/run.js</h2><pre><code>import { runScenario } from './scenario.js';
+
+try {
+  await runScenario(process.argv.slice(2));
+} catch (error) {
+  console.error(error.message);
+  process.exitCode = 1;
+}
+</code></pre><h2 id="section-6">src/scenario.js</h2><pre><code>import * as project from './project.js';
+
+export async function runScenario(argv) {
+  // TODO: choose the documented lab/demo commands or start the HTTP adapter.
+  // TODO: compose project functions with fixtures/config, not production secrets.
+  // Available functions: listActivity, inspectActivityPlans
+  void project;
+  void argv;
+  throw new Error('TODO: wire P26 scenario');
+}
+</code></pre><h2 id="section-7">test/project.test.js</h2><pre><code>import test from 'node:test';
+import assert from 'node:assert/strict';
+import * as project from '../src/project.js';
+
+// TODO: replace every todo with an independently specified assertion.
+// Each test owns its temp database, HTTP server, clock and cleanup.
+void assert;
+void project;
+test.todo(&quot;Created posts&quot;);
+test.todo(&quot;Comment context&quot;);
+test.todo(&quot;Both reaction targets&quot;);
+test.todo(&quot;Cleared reaction&quot;);
+test.todo(&quot;Actor spoof&quot;);
+test.todo(&quot;Deleted parent&quot;);
+test.todo(&quot;Optimization&quot;);
+</code></pre><h2 id="section-8">.gitignore</h2><pre><code>node_modules/
+data/
+.env
+secrets/
+certs/*.key
+</code></pre><h2 id="section-9">docs/decisions.md</h2><pre><code># P26 decisions
+
+TODO: record policy, alternatives, reason and verification evidence.
+</code></pre><p>The initial run intentionally reports TODO, and test.todo items are not passing feature evidence. Complete them with the verification cases before requesting a readiness review.</p><p><a href="spec.html">← Previous: Full specification</a> | <a href="building-01.html">Next: Step 1: Calculate activity from a fixture →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Starter files supplied</a></li><li><a href="#section-2">Additional files you create</a></li><li><a href="#section-3">package.json</a></li><li><a href="#section-4">src/project.js</a></li><li><a href="#section-5">src/run.js</a></li><li><a href="#section-6">src/scenario.js</a></li><li><a href="#section-7">test/project.test.js</a></li><li><a href="#section-8">.gitignore</a></li><li><a href="#section-9">docs/decisions.md</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

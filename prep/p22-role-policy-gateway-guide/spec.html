@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P22: Roles, Ownership and Permission Matrix</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Guest reads only published public content; member creates, comments and reacts; moderator additionally reviews pending posts and deletes/reports posts; admin additionally manages roles, reports, posts/comments and categories.</li>
+<li>Load current role from server-side database state for every authorized action; ignore role and owner IDs supplied by the browser.</li>
+<li>Permissions consider actor role, resource ownership, publication state and action. Pending/deleted content cannot leak through details, lists, counts or assets.</li>
+<li>Admin bootstrapping is a one-time operator procedure outside public registration; users never self-select admin. Prevent demoting or deleting the final administrator.</li>
+<li>Role promotion/demotion changes take effect on the next request; rotate/revoke session privileges according to P10 policy and test revocation. Guest returns 401 on writes; authenticated forbidden actions return 403.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>authorize(actor, action, resource)</td><td>Return allow/deny from explicit matrix; default deny.</td></tr>
+<tr><td>bootstrapAdmin(db, operatorInput)</td><td>Create initial administrator through an operator-only command.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Guest write</td><td>direct POST create without session</td><td>401; no row</td></tr>
+<tr><td>Role spoof</td><td>member sends role=admin</td><td>403 on admin operation</td></tr>
+<tr><td>Moderator action</td><td>current moderator deletes post</td><td>allowed by matrix</td></tr>
+<tr><td>Demotion</td><td>admin demotes moderator then old cookie acts</td><td>403 on moderator action</td></tr>
+<tr><td>Pending detail</td><td>guest requests guessed pending ID</td><td>404 without content leakage</td></tr>
+<tr><td>Last admin</td><td>attempt to demote sole admin</td><td>409; one admin remains</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

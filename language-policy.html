@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Go or Node.js team choice</title>
+<link rel="stylesheet" href="assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="index.html">Overview</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="coverage.html">Coverage</a>
+      <a href="instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Curriculum index</a></p><h1>Choose Node.js or Go as a team</h1><p>A team of 4–5 students chooses one backend for the shared forum repository: JavaScript on Node.js or Go. The choice applies consistently to the base and its extensions. The behavioral contract and assessment are the same. These guided chapters teach the Node.js route. Go teams must satisfy the equivalent preparation checks before starting and already know Go syntax, modules, errors and its standard library.</p><p>Node route: core node:http/node:https, node:sqlite, node:crypto, node:test and semantic HTML. No frontend frameworks or ORM; Busboy, Sharp and jose are allowed for prepared specialist tasks. Go route: net/http, html/template, database/sql with an approved SQLite driver, crypto/rand, a reviewed password-hash package and testing. See the language policy for exact package and readiness rules.</p><h2 id="section-1">Decision record</h2><ul>
+<li>Choose one backend before starting F01, record why and identify the teammates maintaining it.</li>
+<li>Keep the chosen language through its optional extensions unless the academy approves a planned migration with repeated prep checks.</li>
+<li>Use the same HTTP behavior, SQLite schema requirements, access control, UI restrictions and acceptance evidence for either language.</li>
+<li>The generated guide pages and starter code use Node.js; Go submissions are valid implementations of the same assignments, not separate parallel worked guides.</li>
+<li>A Go team completes equivalent prep deliverables in Go or demonstrates them before its capstone, including package/container compatibility. The academy verifies language fluency before allowing Go to bypass the Node worked route.</li>
+</ul><h2 id="section-2">Implementation parity</h2><div class="table-scroll" role="region" aria-label="Boundary / Node.js route / Go route" tabindex="0"><table data-columns="3">
+<caption>Boundary / Node.js route / Go route</caption>
+<thead><tr><th scope="col">Boundary</th><th scope="col">Node.js route</th><th scope="col">Go route</th></tr></thead>
+<tbody>
+<tr><td>HTTP</td><td>node:http and node:https</td><td>net/http and TLS configuration</td></tr>
+<tr><td>Safe HTML</td><td>prepared text escaping and server rendering</td><td>html/template with safe context handling</td></tr>
+<tr><td>SQLite</td><td>node:sqlite with explicit SQL</td><td>database/sql with approved SQLite driver</td></tr>
+<tr><td>Passwords</td><td>asynchronous scrypt, prepared record format</td><td>reviewed scrypt or bcrypt with separately demonstrated parameter/byte policy</td></tr>
+<tr><td>Random session ID</td><td>node:crypto randomBytes; UUID optional</td><td>crypto/rand; UUID library optional</td></tr>
+<tr><td>Testing</td><td>node:test and node:assert/strict</td><td>testing and httptest</td></tr>
+<tr><td>Specialist libraries</td><td>Busboy, Sharp, jose; SQLCipher only after P21</td><td>preapproved equivalents after matching preparation and container verification</td></tr>
+<tr><td>Concurrency</td><td>promises/streams plus short SQLite transactions</td><td>goroutines/channels where appropriate; identical transactional invariants</td></tr>
+</tbody></table></div><h2 id="section-3">Academy package policy</h2><p>Do not use backend scaffolding frameworks, an ORM or an authentication-as-a-service product to replace the core assessed skills. Specialist parsing/decoding/cryptographic verification libraries are allowed because those are prepared boundaries, not the domain logic. Pin reviewed dependencies for the cohort, commit a lockfile/go.sum and recheck native builds in Docker. No frontend framework is allowed.</p><h2 id="section-4">Differences from 01-edu</h2><p>The supplied source briefs are Go-oriented and list Go packages. This academy adaptation explicitly admits Node.js and its documented specialist dependencies. Password hashing, ERD submission, CSRF and concrete verification are baseline academy requirements even where the source called them bonuses or recommendations. See the coverage matrix for each change.</p><h2 id="section-5">Go references for the language readiness gate</h2><ul><li><a href="https://go.dev/doc/tutorial/create-module">Go: create a module</a></li><li><a href="https://pkg.go.dev/net/http">Go: net/http</a></li><li><a href="https://pkg.go.dev/html/template">Go: html/template</a></li><li><a href="https://go.dev/doc/database">Go: database access</a></li><li><a href="https://pkg.go.dev/testing">Go: testing</a></li></ul>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Decision record</a></li><li><a href="#section-2">Implementation parity</a></li><li><a href="#section-3">Academy package policy</a></li><li><a href="#section-4">Differences from 01-edu</a></li><li><a href="#section-5">Go references for the language readiness gate</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

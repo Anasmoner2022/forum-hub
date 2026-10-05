@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P12: Docker Images, Volumes and Restore Drill</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol>
+<li>Use a Node 24.15+ Debian-based image pinned to a cohort-approved patch/digest; install locked dependencies inside the image with npm ci, never copy host node_modules.</li>
+<li>Run as a non-root user with explicit writable data and upload directories; expose the documented app port and bind the server to 0.0.0.0 in the container.</li>
+<li>Persist the whole SQLite directory in a named volume, including WAL/SHM companion files when WAL is used; replace the container without losing data.</li>
+<li>Build .dockerignore excluding secrets, private certificates, databases, node_modules and irrelevant academy guide files. Record supported host/container architectures.</li>
+<li>Practise a consistent backup using SQLite backup API or a stopped/closed database copy. Restore to a separate disposable location, verify migrations, foreign keys and row counts, and keep live data intact.</li>
+</ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" aria-label="Function or boundary / Required result" tabindex="0"><table data-columns="2">
+<caption>Function or boundary / Required result</caption>
+<thead><tr><th scope="col">Function or boundary</th><th scope="col">Required result</th></tr></thead>
+<tbody>
+<tr><td>checkRuntime(config)</td><td>Validate startup paths, configured port and writable storage before serving.</td></tr>
+</tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" aria-label="Scenario / Concrete input/action / Expected outcome" tabindex="0"><table data-columns="3">
+<caption>Scenario / Concrete input/action / Expected outcome</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Concrete input/action</th><th scope="col">Expected outcome</th></tr></thead>
+<tbody>
+<tr><td>Clean build</td><td>docker compose build</td><td>image builds using lockfile</td></tr>
+<tr><td>Run</td><td>docker compose up -d; GET /health</td><td>200 through mapped port</td></tr>
+<tr><td>Persistence</td><td>create topic, docker compose down then up</td><td>topic remains; no -v flag used</td></tr>
+<tr><td>Permissions</td><td>inspect process UID and create data</td><td>non-root; directory writable</td></tr>
+<tr><td>Architecture</td><td>build on supported team host</td><td>native dependencies target container platform</td></tr>
+<tr><td>Restore</td><td>restore snapshot to separate path</td><td>row counts match; no FK violations</td></tr>
+</tbody></table></div><h2 id="section-4">Out of scope</h2><p>Build this focused deliverable, not the complete forum. Features in the Level up chapter are optional and are not prerequisites unless the roadmap explicitly selects them. Do not replace a core learning task with a framework or finished service.</p><p>Use synthetic users and disposable test data during development. Keep a decision record when the brief allows a choice; the record must include an independently verifiable consequence.</p><p><a href="node-refresher.html">← Previous: Node.js and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

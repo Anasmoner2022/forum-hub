@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Node.js and subject refresher — P21: Optional Live Database Encryption and Recovery Lab</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Node.js and subject refresher</h1><p>Ordinary SQLite can ignore an unknown encryption pragma, so a successful PRAGMA key is not proof. Validate the cipher engine and demonstrate that a wrong key cannot read schema or records.</p><pre><code>import sqlite3 from '@journeyapps/sqlcipher';
+// TODO: wrap callback completion/error in promises.
+// TODO: validate cipher_version, key before reading and force a schema query.
+// TODO: preserve the repository results while changing its driver adapter.</code></pre><h2 id="section-1">Project-specific trace</h2><p>Before implementing anything, predict the “Cipher engine” case: input query cipher_version in clean Linux image, result nonempty supported cipher version. Then contrast it with “Rotation/recovery”.</p><h2 id="section-2">Keep the boundary visible</h2><ul>
+<li>openEncryptedDatabase(path, secretPath): Verify driver, load fixed-size key and confirm schema access.</li>
+<li>exportEncryptedCopy(source, targetPath, targetKey): Export to a separate encrypted database and verify metadata/counts.</li>
+<li>rotateDatabaseKey(db, newKey): Perform a documented disposable rekey and verify both old/new behavior.</li>
+</ul><p>The short example illustrates an API or a reasoning tool. It does not implement the required service. Return to the mandatory reading if you cannot explain the example’s inputs, side effects or possible errors.</p><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Project-specific trace</a></li><li><a href="#section-2">Keep the boundary visible</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

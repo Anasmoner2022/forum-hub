@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Runtime and dependency policy</title>
+<link rel="stylesheet" href="assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="index.html">Overview</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="coverage.html">Coverage</a>
+      <a href="instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Curriculum index</a></p><h1>Runtime, dependencies and launch preflight</h1><p>The worked route targets a cohort-pinned Node.js 24 LTS patch at or above 24.15.0, with ES modules. This workspace has Node 24.19.0 and the core SQLite import was checked. Do not switch to a floating latest runtime during the cohort.</p><p>node:sqlite is marked release candidate in the reviewed Node 24 documentation, not fully stable. The synchronous DatabaseSync API is used for small single-instance educational workloads. Keep transactions short, avoid awaiting external I/O inside them, and do not infer multi-replica or production-scale guarantees. A driver substitution requires repeating repository and Docker prep gates.</p><h2 id="section-1">Packages by stage</h2><div class="table-scroll" role="region" aria-label="Stage / Tools/dependencies / Before its final assignment" tabindex="0"><table data-columns="3">
+<caption>Stage / Tools/dependencies / Before its final assignment</caption>
+<thead><tr><th scope="col">Stage</th><th scope="col">Tools/dependencies</th><th scope="col">Before its final assignment</th></tr></thead>
+<tbody>
+<tr><td>P01–P12</td><td>Node core HTTP, file, crypto, SQLite and test APIs; npm; Docker</td><td>Verify the selected Node patch, lockfile, platform and writable volumes.</td></tr>
+<tr><td>P13–P15</td><td>Node fetch; jose; real Google and GitHub test applications</td><td>Pin verifier version and demonstrate both live callbacks during P15.</td></tr>
+<tr><td>P16–P17</td><td>Busboy and Sharp</td><td>Pin versions, record native decoder/runtime platform support and test all formats/limits.</td></tr>
+<tr><td>P18–P20</td><td>OpenSSL 3; Node HTTPS/TLS; core limiter and sessions</td><td>Verify local SAN certificate and trust, key mounts and measured scrypt memory/time.</td></tr>
+<tr><td>P21 optional</td><td>@journeyapps/sqlcipher in Linux; native compiler toolchain/OpenSSL headers</td><td>Teacher verifies a pinned source build and every encrypted-driver contract case before selecting bonus.</td></tr>
+</tbody></table></div><h2 id="section-2">Dependency installation in student implementations</h2><pre><code>npm install --save-exact jose
+npm install --save-exact busboy sharp
+# Optional P21 only, inside its reviewed Linux build environment:
+npm install --save-exact @journeyapps/sqlcipher
+# After recording reviewed versions and committing the lockfile:
+npm ci</code></pre><p>The teacher resolves and tests exact cohort versions before release; these commands intentionally do not claim an untested universal version set. Do not install all specialist dependencies in P01. The curriculum itself requires no third-party package to build or read.</p><h2 id="section-3">Configuration worksheet</h2><ul>
+<li>APP_HOST/PORT and public origin; local HTTP versus HTTPS mode.</li>
+<li>DB_PATH, uploads/temp directories, migration status and named volume ownership.</li>
+<li>SESSION absolute/idle TTL and injected test clock.</li>
+<li>Provider client IDs, secrets and exact callback URIs; test-user approval where required.</li>
+<li>TLS certificate/key paths and explicit development trust.</li>
+<li>Password work factors, memory budget and concurrency cap.</li>
+<li>Limiter policies, trusted socket/proxy assumptions and bounded key capacity.</li>
+<li>Optional SQLCipher key mount, driver build target, cipher version and recovery custodian.</li>
+</ul><h2 id="section-4">Launch checks the academy must perform</h2><p>The guides and their unfinished scaffolds are curriculum artifacts; they are not completed student implementations. Before the first cohort, a mentor should pilot the preparation, rehearse the external-provider setup and native packages, measure the time estimates, and validate the runtime/container matrix. The supplied instructor guide includes a release checklist.</p><h2 id="section-5">Primary references</h2><ul><li><a href="https://nodejs.org/download/release/latest-v24.x/docs/api/sqlite.html">Node.js 24: SQLite</a></li><li><a href="https://github.com/journeyapps/node-sqlcipher">JourneyApps: SQLCipher Node bindings and supported platforms</a></li><li><a href="https://sharp.pixelplumbing.com/api-constructor/">Sharp: Constructor and input limits</a></li><li><a href="https://github.com/panva/jose">jose: JWT verification and remote JWKS</a></li></ul>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Packages by stage</a></li><li><a href="#section-2">Dependency installation in student implementations</a></li><li><a href="#section-3">Configuration worksheet</a></li><li><a href="#section-4">Launch checks the academy must perform</a></li><li><a href="#section-5">Primary references</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Node.js and subject refresher — P19: Rate Limiting and Bounded Work</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Node.js and subject refresher</h1><p>A rate limit bounds how often work may start. A concurrency budget bounds how many expensive jobs can be active together. Neither should derive identity from a client-supplied user ID.</p><pre><code>Window duration: 60000 ms
+Allowed login count: 5 for identifier key
+At exactly start+60000: new window
+TODO: calculate the sixth attempt and Retry-After with a fake clock.</code></pre><h2 id="section-1">Project-specific trace</h2><p>Before implementing anything, predict the “Identifier limit” case: input 6 attempts for one identifier inside 60s, result sixth 429. Then contrast it with “Work bound”.</p><h2 id="section-2">Keep the boundary visible</h2><ul>
+<li>allowAttempt(key, policy, now): Return {allowed, retryAfterSeconds} without extending blocked windows.</li>
+<li>pruneLimiter(now): Remove stale keys while retaining live policy state.</li>
+<li>runExpensiveJob(task): Enforce a bounded concurrent job count and safe overload behavior.</li>
+</ul><p>The short example illustrates an API or a reasoning tool. It does not implement the required service. Return to the mandatory reading if you cannot explain the example’s inputs, side effects or possible errors.</p><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Project-specific trace</a></li><li><a href="#section-2">Keep the boundary visible</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

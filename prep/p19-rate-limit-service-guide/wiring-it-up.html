@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Wiring it up and running it — P19: Rate Limiting and Bounded Work</title>
+<link rel="stylesheet" href="../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <span class="header-label">PROJECT TRACK</span>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Curriculum</a></p><h1>Wiring it up and running it</h1><p>Keep imports free of side effects. src/run.js is the supplied CLI boundary; complete src/scenario.js to assemble the prepared modules, load only synthetic fixtures and expose the documented demo or server mode. The supplied wrapper handles a rejected scenario without printing internal stacks.</p><h2 id="section-1">Run procedure</h2><pre><code>node --version
+npm install --package-lock-only
+npm ci
+npm start -- demo
+npm test</code></pre><h2 id="section-2">Environment and dependencies</h2><p>Use the cohort-pinned Node 24.15+ patch and matching container runtime. See runtime-policy.html from the curriculum index for allowed packages, RC API limitations, provider setup and native-build prerequisites. Create directories before writing fixture files; never use the forum guide folder as a production data directory.</p><h2 id="section-3">Troubleshooting</h2><div class="table-scroll" role="region" aria-label="Symptom / Check" tabindex="0"><table data-columns="2">
+<caption>Symptom / Check</caption>
+<thead><tr><th scope="col">Symptom</th><th scope="col">Check</th></tr></thead>
+<tbody>
+<tr><td>Import/export error</td><td>Confirm type=module, explicit .js imports and the supported Node major.</td></tr>
+<tr><td>TODO: wire scenario</td><td>Expected on the supplied starter. Implement the scenario adapter and service contracts.</td></tr>
+<tr><td>SQLite unavailable or schema missing</td><td>Check runtime version, migration status, configured DB path and connection initialization.</td></tr>
+<tr><td>Server starts but browser cannot connect</td><td>Check the configured host/port, terminal output and container port mapping.</td></tr>
+<tr><td>Permission denied</td><td>Check test/storage path and non-root mounted-directory ownership.</td></tr>
+<tr><td>Tests finish with TODO or skipped cases</td><td>The implementation has not passed its exit gate. Replace placeholder tests with assertions.</td></tr>
+</tbody></table></div><h2 id="section-4">Before continuing</h2><p>Run the “Identifier limit” scenario and inspect sixth 429. Then deliberately trigger “Work bound” to verify error/cleanup behavior.</p><p><a href="building-03.html">← Previous: Step 3: Bound storage and expensive work</a> | <a href="testing.html">Next: Testing →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Run procedure</a></li><li><a href="#section-2">Environment and dependencies</a></li><li><a href="#section-3">Troubleshooting</a></li><li><a href="#section-4">Before continuing</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>
