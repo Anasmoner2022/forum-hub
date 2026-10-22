@@ -20,7 +20,7 @@ const list=(items,ordered=false)=>`<${ordered?'ol':'ul'}>${items.map(x=>`<li>${e
 const code=text=>`<pre><code>${esc(text)}</code></pre>`;
 const link=(href,label)=>`<a href="${esc(href)}">${esc(label)}</a>`;
 const relative=(directory,target)=>path.posix.relative(directory,target);
-const write=async(file,body)=>{const target=path.join(root,file);await mkdir(path.dirname(target),{recursive:true});await writeFile(target,body,'utf8');};
+const write=async(file,body)=>{const target=path.join(root,file);await mkdir(path.dirname(target),{recursive:true});await writeFile(target,file.endsWith('.html')?body.replace(/[ \t]+$/gm,''):body,'utf8');};
 const table=(headers,rows)=>`<div class="table-scroll" role="region" tabindex="0" aria-label="${esc(headers.join(' / '))}"><table data-columns="${headers.length}"><caption>${esc(headers.join(' / '))}</caption><thead><tr>${headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map(cell=>`<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 const projectLink=(id,directory='go')=>{const p=byId.get(id);if(!p)throw new Error(`Unknown Go prerequisite ${id}`);return link(relative(directory,`${p.directory}/index.html`),`${id}: ${p.title}`);};
 const sourceInfo=key=>key.startsWith('go:')?goSources[key.slice(3)]:sources[key];
