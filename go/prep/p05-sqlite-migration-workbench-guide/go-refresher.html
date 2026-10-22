@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Go and subject refresher — P05: SQLite Schema and Migration Workbench — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Go and subject refresher</h1><p>sql.DB is a pool, not one connection. Foreign-key enforcement is per SQLite connection; configure it in the driver DSN and test a newly acquired connection. Teach CGO and the native compiler now.</p><pre><code>db, err := sql.Open(&quot;sqlite3&quot;, dsn)
+if err != nil { return err }
+defer db.Close()
+// PingContext confirms opening; sql.Open alone may not establish a connection.</code></pre><h2 id="section-1">Go implementation notes</h2><ul><li>Use database/sql with github.com/mattn/go-sqlite3 and a reviewed version in go.mod/go.sum; prove CGO_ENABLED=1 and a compiler work on your host or Linux container.</li><li>Keep immutable numbered migration files; use a transaction and record the schema version only after every statement succeeds.</li><li>Configure _foreign_keys=on and a bounded _busy_timeout in the driver DSN; verify them on each opened connection and test restart persistence.</li></ul><h2 id="section-2">Project-specific trace</h2><p>Predict “Fresh migration”: empty data/lab.sqlite; migrate should produce v1 and v2 recorded once. Contrast it with “Changed migration”.</p><h2 id="section-3">Typed boundaries</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Go boundary / Contract"><table data-columns="2"><caption>Go boundary / Contract</caption><thead><tr><th scope="col">Go boundary</th><th scope="col">Contract</th></tr></thead><tbody><tr><td>Migrate(ctx context.Context, input MigrateInput) (MigrateOutput, error)</td><td>Apply pending versions atomically and reject changed applied checksums.</td></tr><tr><td>Seed(ctx context.Context, input SeedInput) (SeedOutput, error)</td><td>Insert a repeatable fixture using bound values.</td></tr></tbody></table></div><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Go implementation notes</a></li><li><a href="#section-2">Project-specific trace</a></li><li><a href="#section-3">Typed boundaries</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

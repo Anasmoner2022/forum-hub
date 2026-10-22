@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P22: Roles, Ownership and Permission Matrix — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol><li>Guest reads only published public content; member creates, comments and reacts; moderator additionally reviews pending posts and deletes/reports posts; admin additionally manages roles, reports, posts/comments and categories.</li><li>Load current role from server-side database state for every authorized action; ignore role and owner IDs supplied by the browser.</li><li>Permissions consider actor role, resource ownership, publication state and action. Pending/deleted content cannot leak through details, lists, counts or assets.</li><li>Admin bootstrapping is a one-time operator procedure outside public registration; users never self-select admin. Prevent demoting or deleting the final administrator.</li><li>Role promotion/demotion changes take effect on the next request; rotate/revoke session privileges according to P10 policy and test revocation. Guest returns 401 on writes; authenticated forbidden actions return 403.</li></ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Proposed typed boundary / Required result"><table data-columns="2"><caption>Proposed typed boundary / Required result</caption><thead><tr><th scope="col">Proposed typed boundary</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>Authorize(ctx context.Context, input AuthorizeInput) (AuthorizeOutput, error)</td><td>Return allow/deny from explicit matrix; default deny.</td></tr><tr><td>BootstrapAdmin(ctx context.Context, input BootstrapAdminInput) (BootstrapAdminOutput, error)</td><td>Create initial administrator through an operator-only command.</td></tr></tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Case / Input / action / Required result"><table data-columns="3"><caption>Case / Input / action / Required result</caption><thead><tr><th scope="col">Case</th><th scope="col">Input / action</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>Guest write</td><td>direct POST create without session</td><td>401; no row</td></tr><tr><td>Role spoof</td><td>member sends role=admin</td><td>403 on admin operation</td></tr><tr><td>Moderator action</td><td>current moderator deletes post</td><td>allowed by matrix</td></tr><tr><td>Demotion</td><td>admin demotes moderator then old cookie acts</td><td>403 on moderator action</td></tr><tr><td>Pending detail</td><td>guest requests guessed pending ID</td><td>404 without content leakage</td></tr><tr><td>Last admin</td><td>attempt to demote sole admin</td><td>409; one admin remains</td></tr></tbody></table></div><h2 id="section-4">Out of scope</h2><p>Implement this focused artifact or named forum assignment. Optional extras are not required. No ORM or framework may replace the assessed logic. Use synthetic data and keep real credentials out of source, fixtures and logs. The Go and Node.js paths have the same domain behavior; this path implements it using the prepared Go tools.</p><p><a href="go-refresher.html">← Previous: Go and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

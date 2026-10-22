@@ -2,6 +2,7 @@ import {readFile,readdir,stat,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
+import {checkGoGuides} from './check-go-guides.mjs';
 const workspaceRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const root=process.argv[2]?path.resolve(workspaceRoot,process.argv[2]):workspaceRoot;
 const inventory=JSON.parse(await readFile(path.join(root,'curriculum.json'),'utf8'));
@@ -88,7 +89,9 @@ const ordered=['P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11'
 const done=new Set();for(const id of ordered){for(const dep of ids.get(id).depends)check(done.has(dep),`Roadmap puts ${id} before ${dep}`);done.add(id);}
 for(const p of inventory.projects.filter(p=>p.kind==='prep'&&!p.bonus))check(inventory.requirements.some(r=>r.prep.includes(p.id)||ancestors(r.capstone).has(p.id)),`${p.id}: unused prep`);
 
-const report={checkedAt:new Date().toISOString(),passed:errors.length===0,guideCount:ids.size,htmlPages:htmlFiles.length,linksChecked:links,scaffoldSyntaxChecks:syntaxChecks,coverageRows:inventory.requirements.length,checks:['Semantic HTML, shared dark theme and complete chapter structure','Local links and balanced tags','Concrete cases, component self-checks and question counts','Prerequisite DAG and staged order','Requirement preparation mappings','Unfinished JavaScript scaffold syntax'],limitations:['No completed student solutions are supplied or certified','External URLs, live providers and native specialist packages require instructor preflight'],errors};
+const goChecks=await checkGoGuides(root,inventory,check);
+// Keep an explicit target when a published-tree report is copied for delivery.
+const report={checkedAt:new Date().toISOString(),checkedTarget:path.relative(workspaceRoot,root)||'.',passed:errors.length===0,guideCount:ids.size+goChecks.inventory.projects.length,languageTracks:['nodejs','go'],htmlPages:htmlFiles.length,linksChecked:links,scaffoldSyntaxChecks:syntaxChecks,goScaffoldCompilationChecks:goChecks.compiled,coverageRows:inventory.requirements.length,checks:['Semantic HTML, shared dark theme and complete chapter structure','Local links and balanced tags','Concrete cases, component self-checks and question counts','Prerequisite DAG and staged order','Requirement preparation mappings','Language selector, isolated Go/Node.js libraries and route continuity','Unfinished JavaScript scaffold syntax and Go scaffold compilation'],limitations:['No completed student solutions are supplied or certified','External URLs, live providers and native specialist packages require instructor preflight'],errors};
 await writeFile(path.join(root,'validation-report.json'),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));
 process.exitCode=errors.length?1:0;

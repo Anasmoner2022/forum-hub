@@ -1,0 +1,6 @@
+data/
+.env
+secrets/
+certs/*.key
+/lab
+/lab.exe

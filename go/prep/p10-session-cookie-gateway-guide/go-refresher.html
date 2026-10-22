@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Go and subject refresher — P10: Session Cookies, Route Guards and CSRF — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Go and subject refresher</h1><p>A session cookie carries an opaque random token, while expiry, actor and role live on the server. Use an injected Clock function in tests instead of sleeping.</p><pre><code>type Clock func() time.Time
+type Session struct {
+    UserID int64
+    ExpiresAt time.Time
+}
+// The browser cannot supply trusted UserID or role fields.</code></pre><h2 id="section-1">Go implementation notes</h2><ul><li>Generate opaque tokens with crypto/rand, persist the prepared digest representation, and replace an earlier session atomically.</li><li>Use http.Cookie flags explicitly; test absolute and idle expiry using a fake clock and revoke by deleting the server record.</li><li>Implement CSRF and Origin checks as handlers/middleware before writes; compare tokens safely and reject cross-origin mutation attempts.</li></ul><h2 id="section-2">Project-specific trace</h2><p>Predict “Valid login”: valid credentials in browser A should produce authenticated session; required cookie attributes. Contrast it with “CSRF”.</p><h2 id="section-3">Typed boundaries</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Go boundary / Contract"><table data-columns="2"><caption>Go boundary / Contract</caption><thead><tr><th scope="col">Go boundary</th><th scope="col">Contract</th></tr></thead><tbody><tr><td>CreateSession(ctx context.Context, input CreateSessionInput) (CreateSessionOutput, error)</td><td>Return fresh token and cookie metadata after replacing old sessions.</td></tr><tr><td>Authenticate(ctx context.Context, input AuthenticateInput) (AuthenticateOutput, error)</td><td>Return trusted member context or null.</td></tr><tr><td>RequireCsrf(ctx context.Context, input RequireCsrfInput) (RequireCsrfOutput, error)</td><td>Reject unsafe requests without the matching token and allowed origin.</td></tr><tr><td>Logout(ctx context.Context, input LogoutInput) (LogoutOutput, error)</td><td>Revoke server state and expire the client cookie.</td></tr></tbody></table></div><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Go implementation notes</a></li><li><a href="#section-2">Project-specific trace</a></li><li><a href="#section-3">Typed boundaries</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

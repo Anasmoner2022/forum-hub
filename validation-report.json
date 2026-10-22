@@ -1,10 +1,15 @@
 {
-  "checkedAt": "2026-10-05T21:56:21.237Z",
+  "checkedAt": "2026-10-22T08:48:37.569Z",
   "passed": true,
-  "guideCount": 32,
-  "htmlPages": 489,
-  "linksChecked": 9065,
+  "guideCount": 64,
+  "languageTracks": [
+    "nodejs",
+    "go"
+  ],
+  "htmlPages": 978,
+  "linksChecked": 19052,
   "scaffoldSyntaxChecks": 124,
+  "goScaffoldCompilationChecks": 31,
   "coverageRows": 58,
   "checks": [
     "Semantic HTML, shared dark theme and complete chapter structure",
@@ -12,11 +17,13 @@
     "Concrete cases, component self-checks and question counts",
     "Prerequisite DAG and staged order",
     "Requirement preparation mappings",
-    "Unfinished JavaScript scaffold syntax"
+    "Language selector, isolated Go/Node.js libraries and route continuity",
+    "Unfinished JavaScript scaffold syntax and Go scaffold compilation"
   ],
   "limitations": [
     "No completed student solutions are supplied or certified",
     "External URLs, live providers and native specialist packages require instructor preflight"
   ],
-  "errors": []
+  "errors": [],
+  "checkedTarget": "public"
 }

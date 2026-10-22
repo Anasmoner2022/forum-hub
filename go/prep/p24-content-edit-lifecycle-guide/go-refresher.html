@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Go and subject refresher — P24: Owned Editing, Deletion and Stale Update Conflicts — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Go and subject refresher</h1><p>Model a versioned edit as a conditional mutation on persisted author, ID and version. A stale save is a conflict, not a successful no-op.</p><pre><code>type EditInput struct {
+    ExpectedVersion int64
+    Title string
+    Body string
+}
+// Actor comes from the session, not from this input.</code></pre><h2 id="section-1">Go implementation notes</h2><ul><li>Use typed edit inputs and a trusted actor; check current ownership and the expected version in the write boundary.</li><li>Write the retained/deleted child visibility table before the transaction; keep public queries consistent with it.</li><li>Make the installed moderation policy explicit: the same validated edit remains published in base mode and becomes pending when moderation is installed.</li></ul><h2 id="section-2">Project-specific trace</h2><p>Predict “Owner edit”: author edits post at current version should produce content changes; version increments. Contrast it with “Moderated edit”.</p><h2 id="section-3">Typed boundaries</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Go boundary / Contract"><table data-columns="2"><caption>Go boundary / Contract</caption><thead><tr><th scope="col">Go boundary</th><th scope="col">Contract</th></tr></thead><tbody><tr><td>EditOwnedPost(ctx context.Context, input EditOwnedPostInput) (EditOwnedPostOutput, error)</td><td>Apply validated owner edit conditionally.</td></tr><tr><td>EditOwnedComment(ctx context.Context, input EditOwnedCommentInput) (EditOwnedCommentOutput, error)</td><td>Apply owner edit or forbidden/conflict.</td></tr><tr><td>DeleteOwnedContent(ctx context.Context, input DeleteOwnedContentInput) (DeleteOwnedContentOutput, error)</td><td>Soft-delete and enforce child visibility consistently.</td></tr></tbody></table></div><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Go implementation notes</a></li><li><a href="#section-2">Project-specific trace</a></li><li><a href="#section-3">Typed boundaries</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>ER and relational modeling refresher — P04: Community ERD and Relational Schema Design — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>ER and relational modeling refresher</h1><p>An ERD describes entities, participation and cardinality independently of the programming language. Derive keys and junction tables before choosing Go storage structs.</p><pre><code>Member (member_id PK) 1 ── authors ── N Topic (topic_id PK, author_id FK)
+Topic N ── TopicLabel ── N Label
+// Document the minimum label count as a transaction invariant.</code></pre><h2 id="section-1">Go implementation notes</h2><ul><li>Keep the ERD independent of Go structs; a pointer field is not a database nullability policy.</li><li>Document the unique target/member reaction key and the one-active-session rule in the schema.</li><li>A database/sql adapter will implement these rules in P05–P07; distinguish a foreign key from a multi-row invariant.</li></ul><h2 id="section-2">Project-specific trace</h2><p>Predict “ERD completeness”: all eight domain concepts should produce every entity/relationship appears with keys and cardinalities. Contrast it with “Minimum label count”.</p><h2 id="section-3">Typed boundaries</h2><p>The artifact is a reviewed ERD and schema, not a Go program.</p><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Go implementation notes</a></li><li><a href="#section-2">Project-specific trace</a></li><li><a href="#section-3">Typed boundaries</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

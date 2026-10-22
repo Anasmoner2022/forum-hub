@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "prepared": "2026-10-05",
   "entrySkills": [
     "basic JavaScript",
@@ -144,6 +144,7 @@
         "Add a dry-run report that redacts secret fields.",
         "Support a second configuration file with an explicit merge policy."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p01-node-runtime-lab-guide",
       "chapters": [
@@ -348,6 +349,7 @@
         "Add structured timing logs with redacted bodies.",
         "Explore streaming an output without collecting it in memory."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p02-http-message-lab-guide",
       "chapters": [
@@ -553,6 +555,7 @@
         "Support a second language with a lang attribute.",
         "Add pagination controls while retaining native navigation."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p03-html-form-board-guide",
       "chapters": [
@@ -750,6 +753,7 @@
         "Model moderation transitions and actors.",
         "Add notification events and justify their relationship to deleted content."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p04-community-erd-design-guide",
       "chapters": [
@@ -950,6 +954,7 @@
         "Validate a restore against the migration journal.",
         "Compare development and container SQLite versions."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p05-sqlite-migration-workbench-guide",
       "chapters": [
@@ -1163,6 +1168,7 @@
         "Add a repository operation timing report.",
         "Expose a configurable page size without accepting SQL fragments."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p06-topic-repository-guide",
       "chapters": [
@@ -1375,6 +1381,7 @@
         "Add an audit trail of actual state changes.",
         "Benchmark contention without changing the correctness contract."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p07-reaction-state-machine-guide",
       "chapters": [
@@ -1574,6 +1581,7 @@
         "Add a bounded title search.",
         "Measure a feed query against a larger synthetic fixture."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p08-feed-filter-engine-guide",
       "chapters": [
@@ -1786,6 +1794,7 @@
         "Compare scrypt with Argon2id in a separate approved experiment.",
         "Design password recovery tokens without implementing email delivery."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p09-credential-vault-guide",
       "chapters": [
@@ -2001,6 +2010,7 @@
         "Add privilege-change rotation.",
         "Design a remember-me token with its own revocation rules."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p10-session-cookie-gateway-guide",
       "chapters": [
@@ -2206,6 +2216,7 @@
         "Add a migration contract check to review.",
         "Introduce a CI pipeline running the same local commands."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p11-failure-and-team-lab-guide",
       "chapters": [
@@ -2412,6 +2423,7 @@
         "Compare two supported CPU architectures.",
         "Measure image size after removing unnecessary build artifacts."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p12-docker-persistence-lab-guide",
       "chapters": [
@@ -2622,6 +2634,7 @@
         "Add a second provider response adapter.",
         "Test a redirect policy that refuses unexpected origins."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p13-external-api-client-guide",
       "chapters": [
@@ -2831,6 +2844,7 @@
         "Add provider-specific timeout diagnostics.",
         "Explore the difference between an OAuth client and an authorization server."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p14-oauth-callback-lab-guide",
       "chapters": [
@@ -3056,6 +3070,7 @@
         "Add a provider outage status page.",
         "Document a secret rotation rehearsal."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p15-provider-identity-lab-guide",
       "chapters": [
@@ -3266,6 +3281,7 @@
         "Test disk-full failure deterministically.",
         "Add a controlled upload receive-time budget."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p16-multipart-upload-gateway-guide",
       "chapters": [
@@ -3482,6 +3498,7 @@
         "Add per-member retained storage quotas.",
         "Extend formats only after adding matching decoder and boundary preparation."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p17-image-asset-lifecycle-guide",
       "chapters": [
@@ -3689,6 +3706,7 @@
         "Practise replacing a certificate before expiry.",
         "Compare TLS 1.2 and 1.3 negotiation using an inspection client."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p18-https-certificate-lab-guide",
       "chapters": [
@@ -3904,6 +3922,7 @@
         "Add a privacy-preserving metrics view.",
         "Design shared limits for multiple instances as a separate study."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p19-rate-limit-service-guide",
       "chapters": [
@@ -4116,6 +4135,7 @@
         "Rehearse a dependency patch with the regression suite.",
         "Explore CSP reporting in a controlled test environment."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p20-session-attack-workbench-guide",
       "chapters": [
@@ -4349,6 +4369,7 @@
         "Design a two-person recovery procedure.",
         "Compare passphrase-based derivation with the fixed-size raw-key policy in a separate experiment."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p21-encrypted-database-lab-guide",
       "chapters": [
@@ -4558,6 +4579,7 @@
         "Design a temporary-role expiry policy.",
         "Compare role-based and resource-relationship authorization."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p22-role-policy-gateway-guide",
       "chapters": [
@@ -4783,6 +4805,7 @@
         "Add a moderation reason taxonomy.",
         "Add a bulk action only after defining per-item conflicts and audit semantics."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p23-moderation-workflow-desk-guide",
       "chapters": [
@@ -4999,6 +5022,7 @@
         "Add image replacement using P17 lifecycle rules.",
         "Add conflict comparison without silently merging user content."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p24-content-edit-lifecycle-guide",
       "chapters": [
@@ -5224,6 +5248,7 @@
         "Add per-type notification preferences.",
         "Add retention and pruning with an explicit unread-policy decision."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p25-notification-event-inbox-guide",
       "chapters": [
@@ -5437,6 +5462,7 @@
         "Add cursor pagination.",
         "Add query performance budgets based on reproducible fixture sizes."
       ],
+      "language": "nodejs",
       "kind": "prep",
       "directory": "prep/p26-activity-query-observatory-guide",
       "chapters": [
@@ -5861,6 +5887,7 @@
         "Add a profile page exposing only approved fields.",
         "Proceed to a chosen extension only after its preparation gate."
       ],
+      "language": "nodejs",
       "kind": "capstone",
       "directory": "projects/f01-forum-guide",
       "chapters": [
@@ -6166,6 +6193,7 @@
         "Add a provider availability indicator.",
         "Add a documented provider-secret rotation drill."
       ],
+      "language": "nodejs",
       "kind": "capstone",
       "directory": "projects/f02-forum-authentication-guide",
       "chapters": [
@@ -6454,6 +6482,7 @@
         "Add a retained-storage quota.",
         "Add another format only after writing matching decoder preparation."
       ],
+      "language": "nodejs",
       "kind": "capstone",
       "directory": "projects/f03-forum-image-upload-guide",
       "chapters": [
@@ -6756,6 +6785,7 @@
         "Add a reviewed certificate-renewal rehearsal.",
         "Add operator-only aggregate security metrics."
       ],
+      "language": "nodejs",
       "kind": "capstone",
       "directory": "projects/f04-forum-security-guide",
       "chapters": [
@@ -7070,6 +7100,7 @@
         "Add a moderation reason taxonomy.",
         "Add bulk moderation only with prewritten conflict and audit contracts."
       ],
+      "language": "nodejs",
       "kind": "capstone",
       "directory": "projects/f05-forum-moderation-guide",
       "chapters": [
@@ -7390,6 +7421,7 @@
         "Add reviewed notification preferences.",
         "Add edit history after preparing its retention and privacy rules."
       ],
+      "language": "nodejs",
       "kind": "capstone",
       "directory": "projects/f06-forum-advanced-features-guide",
       "chapters": [
@@ -8086,5 +8118,22 @@
       "capstone": "F04"
     }
   ],
-  "learnerCompletion": "not assessed"
+  "learnerCompletion": "not assessed",
+  "language": "nodejs",
+  "tracks": [
+    {
+      "id": "nodejs",
+      "label": "Node.js",
+      "home": "index.html",
+      "inventory": "curriculum.json",
+      "prepCount": 26
+    },
+    {
+      "id": "go",
+      "label": "Go",
+      "home": "go/index.html",
+      "inventory": "go/curriculum.json",
+      "prepCount": 26
+    }
+  ]
 }

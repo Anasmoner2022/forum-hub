@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P24: Owned Editing, Deletion and Stale Update Conflicts — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol><li>Authors may edit or delete their own posts and comments; an authenticated nonowner gets 403. Admin overrides apply only when the moderation extension is installed.</li><li>Track integer version starting at 1; an edit requires expectedVersion and increments it on success. Stale writes return 409 without overwriting newer content.</li><li>Reapply existing length/category validation. Use soft deletion: retained rows are marked deleted and all public reads hide them; do not leave publicly visible child comments under a deleted post.</li><li>Define behavior for reactions, assets and notifications on deleted parents. Keep retained references private; public counts and filters exclude deleted content.</li><li>When moderation is installed, editing published post content returns it to pending review and immediately withdraws public visibility. Without moderation, valid edits remain published.</li><li>All mutations require session and CSRF; write a dependency table before choosing retention or cleanup. No undo or file replacement is required in this lab.</li></ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Proposed typed boundary / Required result"><table data-columns="2"><caption>Proposed typed boundary / Required result</caption><thead><tr><th scope="col">Proposed typed boundary</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>EditOwnedPost(ctx context.Context, input EditOwnedPostInput) (EditOwnedPostOutput, error)</td><td>Apply validated owner edit conditionally.</td></tr><tr><td>EditOwnedComment(ctx context.Context, input EditOwnedCommentInput) (EditOwnedCommentOutput, error)</td><td>Apply owner edit or forbidden/conflict.</td></tr><tr><td>DeleteOwnedContent(ctx context.Context, input DeleteOwnedContentInput) (DeleteOwnedContentOutput, error)</td><td>Soft-delete and enforce child visibility consistently.</td></tr></tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Case / Input / action / Required result"><table data-columns="3"><caption>Case / Input / action / Required result</caption><thead><tr><th scope="col">Case</th><th scope="col">Input / action</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>Owner edit</td><td>author edits post at current version</td><td>content changes; version increments</td></tr><tr><td>Nonowner</td><td>other member supplies authorId=owner</td><td>403; unchanged</td></tr><tr><td>Stale editor</td><td>save version 1 after version 2 exists</td><td>409; version 2 remains</td></tr><tr><td>Comment edit</td><td>author changes comment body</td><td>updated body visible under published parent</td></tr><tr><td>Deletion</td><td>author deletes published post</td><td>public post and child comments disappear</td></tr><tr><td>Moderated edit</td><td>published post edited in moderation mode</td><td>pending; publicly hidden until reapproved</td></tr></tbody></table></div><h2 id="section-4">Out of scope</h2><p>Implement this focused artifact or named forum assignment. Optional extras are not required. No ORM or framework may replace the assessed logic. Use synthetic data and keep real credentials out of source, fixtures and logs. The Go and Node.js paths have the same domain behavior; this path implements it using the prepared Go tools.</p><p><a href="go-refresher.html">← Previous: Go and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

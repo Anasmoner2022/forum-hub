@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P04: Community ERD and Relational Schema Design — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol><li>Model members, topics, replies, labels, topic-label membership, topic reactions, reply reactions and expiring server sessions.</li><li>A topic has one author and one or more labels; a reply has one author and one topic; each member has one current reaction per target and at most one active session.</li><li>Choose keys and identify candidate keys; normalized email is unique. Do not store labels as comma-separated strings or derived reaction counts as unexplained truth.</li><li>Represent many-to-many relationships with junction tables; either separate reaction tables or enforce that exactly one target type is referenced.</li><li>State deletion actions, nullability, reaction values, expiration units and which rules require a transaction rather than a single foreign key. Account credentials are sensitive hash records, never plaintext.</li></ol><h2 id="section-2">Inputs and output contracts</h2><p>Submit an ERD, relational schema, data dictionary and enforceability review.</p><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Case / Input / action / Required result"><table data-columns="3"><caption>Case / Input / action / Required result</caption><thead><tr><th scope="col">Case</th><th scope="col">Input / action</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>ERD completeness</td><td>all eight domain concepts</td><td>every entity/relationship appears with keys and cardinalities</td></tr><tr><td>Multiple labels</td><td>topic 7 has labels 2 and 3</td><td>one topic row; two junction rows</td></tr><tr><td>Duplicate identity</td><td>Ada@Example.test and ada@example.test</td><td>normalization policy identifies one conflicting email</td></tr><tr><td>Mixed target</td><td>reaction references both topic and reply</td><td>rejected by the proposed constraint</td></tr><tr><td>Orphan reply</td><td>reply references missing topic</td><td>rejected by referential integrity</td></tr><tr><td>Minimum label count</td><td>new topic with zero labels</td><td>rejected by a named transaction/service invariant</td></tr></tbody></table></div><h2 id="section-4">Out of scope</h2><p>Implement this focused artifact or named forum assignment. Optional extras are not required. No ORM or framework may replace the assessed logic. Use synthetic data and keep real credentials out of source, fixtures and logs. The Go and Node.js paths have the same domain behavior; this path implements it using the prepared Go tools.</p><p><a href="go-refresher.html">← Previous: ER and relational modeling refresher</a> | <a href="starter-structure.html">Next: Starter worksheet →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

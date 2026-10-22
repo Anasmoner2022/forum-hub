@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Starter structure — P26: Personal Activity Queries and Index Observatory — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Starter structure</h1><p>Copy these deliberately unfinished files into your own implementation folder. Core logic and typed input/output fields are TODOs for the learner. The initial code compiles; the run and required tests intentionally fail until implemented.</p><h2 id="section-1">Starter files supplied</h2><ul><li><a href="starter/go.mod">go.mod</a></li><li><a href="starter/cmd/lab/main.go">cmd/lab/main.go</a></li><li><a href="starter/internal/lab/project.go">internal/lab/project.go</a></li><li><a href="starter/internal/lab/scenario.go">internal/lab/scenario.go</a></li><li><a href="starter/internal/lab/project_test.go">internal/lab/project_test.go</a></li><li><a href="starter/.gitignore">.gitignore</a></li><li><a href="starter/docs/decisions.md">docs/decisions.md</a></li></ul><pre><code>go.mod
+cmd/lab/main.go
+internal/lab/project.go
+internal/lab/scenario.go
+internal/lab/project_test.go
+.gitignore
+docs/decisions.md</code></pre><h2 id="section-2">Additional files you create</h2><ul><li>internal/lab/activity_queries.go</li><li>templates/activity.html</li><li>docs/query_plans.md</li><li>fixtures/activity.json</li></ul><h2 id="section-3">go.mod</h2><pre><code>module academy.local/p26
+
+go 1.26.0
+</code></pre><h2 id="section-4">cmd/lab/main.go</h2><pre><code>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;academy.local/p26/internal/lab&quot;
+)
+
+func main() {
+	if err := lab.Run(os.Args[1:]); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+</code></pre><h2 id="section-5">internal/lab/project.go</h2><pre><code>package lab
+
+import (
+	&quot;context&quot;
+	&quot;fmt&quot;
+)
+
+// ListActivity: Return only the actor’s paginated public/authorized activity DTOs.
+// TODO: define these fields from the specification and use trusted context.
+type ListActivityInput struct{}
+type ListActivityOutput struct{}
+
+func ListActivity(ctx context.Context, input ListActivityInput) (ListActivityOutput, error) {
+	// TODO: implement the assessed behavior; keep signatures typed.
+	return ListActivityOutput{}, fmt.Errorf(&quot;TODO: ListActivity&quot;)
+}
+
+// InspectActivityPlans: Return query-plan evidence for the documented queries.
+// TODO: define these fields from the specification and use trusted context.
+type InspectActivityPlansInput struct{}
+type InspectActivityPlansOutput struct{}
+
+func InspectActivityPlans(ctx context.Context, input InspectActivityPlansInput) (InspectActivityPlansOutput, error) {
+	// TODO: implement the assessed behavior; keep signatures typed.
+	return InspectActivityPlansOutput{}, fmt.Errorf(&quot;TODO: InspectActivityPlans&quot;)
+}
+</code></pre><h2 id="section-6">internal/lab/scenario.go</h2><pre><code>package lab
+
+import &quot;fmt&quot;
+
+func Run(args []string) error {
+	// TODO: validate demo/serve arguments and wire the prepared components.
+	// Keep configuration, database ownership and graceful shutdown here.
+	return fmt.Errorf(&quot;TODO: wire P26 scenario&quot;)
+}
+</code></pre><h2 id="section-7">internal/lab/project_test.go</h2><pre><code>package lab
+
+import &quot;testing&quot;
+
+// These failing TODO tests are not evidence of implemented behavior.
+// Replace them with specification-based assertions; no required skips remain.
+func TestContract01(t *testing.T) {
+	// Created posts: A has two authored posts
+	// Expected: A section lists exactly two
+	t.Fatal(&quot;TODO: implement independent assertions for Created posts&quot;)
+}
+
+func TestContract02(t *testing.T) {
+	// Comment context: A comments on B’s post
+	// Expected: comment text plus B post title/link
+	t.Fatal(&quot;TODO: implement independent assertions for Comment context&quot;)
+}
+
+func TestContract03(t *testing.T) {
+	// Both reaction targets: A likes post and dislikes comment
+	// Expected: each in correct section with target context
+	t.Fatal(&quot;TODO: implement independent assertions for Both reaction targets&quot;)
+}
+
+func TestContract04(t *testing.T) {
+	// Cleared reaction: A clears post like
+	// Expected: absent from current likes
+	t.Fatal(&quot;TODO: implement independent assertions for Cleared reaction&quot;)
+}
+
+func TestContract05(t *testing.T) {
+	// Actor spoof: A requests memberId=B
+	// Expected: still only A activity
+	t.Fatal(&quot;TODO: implement independent assertions for Actor spoof&quot;)
+}
+
+func TestContract06(t *testing.T) {
+	// Deleted parent: comment parent soft-deleted
+	// Expected: neutral tombstone; no retained private text
+	t.Fatal(&quot;TODO: implement independent assertions for Deleted parent&quot;)
+}
+
+func TestContract07(t *testing.T) {
+	// Optimization: 1000-record fixture before/after indexes
+	// Expected: same results; documented plan/query-count change
+	t.Fatal(&quot;TODO: implement independent assertions for Optimization&quot;)
+}
+</code></pre><h2 id="section-8">.gitignore</h2><pre><code>data/
+.env
+secrets/
+certs/*.key
+/lab
+/lab.exe
+</code></pre><h2 id="section-9">docs/decisions.md</h2><pre><code># P26 decisions
+
+TODO: record invariants, typed boundary fields, error policy and verification evidence.
+
+## Dependencies
+TODO: record reviewed versions, native requirements and host/container compatibility.
+</code></pre><h2 id="section-10">Boundary types to complete</h2><p>Replace empty input/output structs with fields derived from the specification. Trusted actor, clock, database and server configuration are separate dependencies; browser input must never become trusted role or owner context.</p><p><a href="spec.html">← Previous: Full specification</a> | <a href="building-01.html">Next: Step 1: Calculate activity from a fixture →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Starter files supplied</a></li><li><a href="#section-2">Additional files you create</a></li><li><a href="#section-3">go.mod</a></li><li><a href="#section-4">cmd/lab/main.go</a></li><li><a href="#section-5">internal/lab/project.go</a></li><li><a href="#section-6">internal/lab/scenario.go</a></li><li><a href="#section-7">internal/lab/project_test.go</a></li><li><a href="#section-8">.gitignore</a></li><li><a href="#section-9">docs/decisions.md</a></li><li><a href="#section-10">Boundary types to complete</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Go and subject refresher — P13: External API Client and Secret Handling — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Go and subject refresher</h1><p>An http.Client should have an explicit timeout and redirect policy. Close response bodies, bound their bytes and validate the decoded provider shape before trusting it.</p><pre><code>req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
+if err != nil { return err }
+// TODO: apply the allowlisted destination, credential and response budget policy.</code></pre><h2 id="section-1">Go implementation notes</h2><ul><li>Use httptest.NewServer for success, timeout, malformed JSON and redirect scenarios with synthetic credentials.</li><li>Configure http.Client timeout and CheckRedirect; use context cancellation, close resp.Body, and reject a response that exceeds the byte budget.</li><li>Keep secrets in server configuration; redact Authorization, tokens and code/state parameters from diagnostics.</li></ul><h2 id="section-2">Project-specific trace</h2><p>Predict “Profile”: fake /profile returns subject 101 and displayName Ada should produce validated public profile. Contrast it with “Secret leak”.</p><h2 id="section-3">Typed boundaries</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Go boundary / Contract"><table data-columns="2"><caption>Go boundary / Contract</caption><thead><tr><th scope="col">Go boundary</th><th scope="col">Contract</th></tr></thead><tbody><tr><td>FetchProfile(ctx context.Context, input FetchProfileInput) (FetchProfileOutput, error)</td><td>Return a validated profile or a sanitized provider error.</td></tr><tr><td>CreateFakeProvider(ctx context.Context, input CreateFakeProviderInput) (CreateFakeProviderOutput, error)</td><td>Start a disposable local server with an explicit synthetic response.</td></tr></tbody></table></div><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Go implementation notes</a></li><li><a href="#section-2">Project-specific trace</a></li><li><a href="#section-3">Typed boundaries</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

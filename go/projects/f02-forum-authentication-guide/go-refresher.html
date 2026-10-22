@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Go and subject refresher — F02: Forum Authentication: Google and GitHub SSO — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Go and subject refresher</h1><p>The provider proves an external identity; your forum still decides local account mapping, authorization and session creation. Reuse the exact P15 adapters already demonstrated with live accounts.</p><pre><code>verified provider+subject → local member mapping → existing session service
+TODO: identify how first login, repeat login and explicit linking differ.</code></pre><h2 id="section-1">Go implementation notes</h2><ul><li>P13: reuse its tested Go component and preserve every required failure case.</li><li>P14: reuse its tested Go component and preserve every required failure case.</li><li>P15: reuse its tested Go component and preserve every required failure case.</li></ul><h2 id="section-2">Project-specific trace</h2><p>Predict “Two providers”: Google and GitHub first+repeat login should produce working registration and stable returning account. Contrast it with “Provider failure”.</p><h2 id="section-3">Typed boundaries</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Go boundary / Contract"><table data-columns="2"><caption>Go boundary / Contract</caption><thead><tr><th scope="col">Go boundary</th><th scope="col">Contract</th></tr></thead><tbody><tr><td>StartProviderLogin(ctx context.Context, input StartProviderLoginInput) (StartProviderLoginOutput, error)</td><td>Begin only an allowlisted login or link flow.</td></tr><tr><td>FinishProviderLogin(ctx context.Context, input FinishProviderLoginInput) (FinishProviderLoginOutput, error)</td><td>Consume attempt, verify identity and issue forum session.</td></tr></tbody></table></div><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Go implementation notes</a></li><li><a href="#section-2">Project-specific trace</a></li><li><a href="#section-3">Typed boundaries</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

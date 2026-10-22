@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Testing — P11: Failure Handling, Tests and Team Integration — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Testing</h1><h2 id="section-1">Verification cases</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Case / Input / action / Required result"><table data-columns="3"><caption>Case / Input / action / Required result</caption><thead><tr><th scope="col">Case</th><th scope="col">Input / action</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>Domain validation</td><td>invalid title</td><td>422; no row</td></tr><tr><td>Injected database fault</td><td>repository rejects with private SQL text</td><td>503 or safe 500 according to classified fault; no SQL in response</td></tr><tr><td>Renderer fault</td><td>renderer throws with a file path</td><td>safe 500; request ID in sanitized log</td></tr><tr><td>Test isolation</td><td>run suite twice</td><td>same fixture counts; no port leaks</td></tr><tr><td>Async rejection</td><td>returned repository error</td><td>an explicit error assertion observes failure</td></tr><tr><td>Review drill</td><td>teammate changes a service return field</td><td>contract test detects the integration break</td></tr></tbody></table></div><h2 id="section-2">Commands</h2><pre><code>go version
+go mod tidy
+go fmt ./...
+go vet ./...
+go test ./...
+go build ./cmd/lab
+go run ./cmd/lab demo
+# Supported CGO/compiler environment required for the race detector:
+go test -race ./...</code></pre><p>Initially the run and tests fail with TODO diagnostics. The compile-only command go test -run &quot;^$&quot; ./... checks scaffold compilation; it does not run the required behavior tests. Replace every failing placeholder with independently specified assertions.</p><h2 id="section-3">Independent review</h2><ul><li>Use t.TempDir and t.Cleanup so each integration case owns its database, files and server.</li><li>Use an injected clock and deterministic fixtures; join concurrent work before checking results.</li><li>Check responses, persistent state and cleanup on both success and failure.</li><li>Repeat the earlier Go preparation cases after adapting reused components.</li></ul><h2 id="section-4">Exit gate</h2><ul><li>All required behavior cases pass; no placeholder failures or skipped required tests remain.</li><li>A teammate reproduces the build, run and verification from your README.</li><li>Explain an invariant and repair an intentionally introduced defect.</li><li>No real secrets, user credentials or private data are included.</li></ul><p><a href="wiring-it-up.html">← Previous: Wiring it up and running it</a> | <a href="engineering-questions.html">Next: Engineering questions &amp; Socratic vision →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Verification cases</a></li><li><a href="#section-2">Commands</a></li><li><a href="#section-3">Independent review</a></li><li><a href="#section-4">Exit gate</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

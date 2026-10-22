@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Go and subject refresher — P16: Streaming Multipart Upload Gateway — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Go and subject refresher</h1><p>MultipartReader streams parts; ParseMultipartForm may spill data to disk and is not a complete upload policy. Authenticate before consuming expensive data, enforce all counts and clean temporary files.</p><pre><code>reader, err := r.MultipartReader()
+if err != nil { return err }
+// TODO: iterate NextPart, enforce counts/byte budgets and close every part.
+_ = reader</code></pre><h2 id="section-1">Go implementation notes</h2><ul><li>Authenticate and check CSRF/Origin before accepting an upload; keep categories as repeated bounded form values.</li><li>Wrap the whole body in MaxBytesReader and enforce fields&lt;=8, field bytes&lt;=16 KiB, one file, parts&lt;=9 and the distinct file/request limits.</li><li>Use os.CreateTemp outside the public directory, copy at most the file limit plus one byte, close handles and remove every rejected partial file.</li></ul><h2 id="section-2">Project-specific trace</h2><p>Predict “At limit”: one 20,000,000-byte synthetic file should produce accepted by byte intake; image validation still required in P17. Contrast it with “Guest”.</p><h2 id="section-3">Typed boundaries</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Go boundary / Contract"><table data-columns="2"><caption>Go boundary / Contract</caption><thead><tr><th scope="col">Go boundary</th><th scope="col">Contract</th></tr></thead><tbody><tr><td>ReceiveUpload(ctx context.Context, input ReceiveUploadInput) (ReceiveUploadOutput, error)</td><td>Return a private temp path and bounded fields only after all checks pass.</td></tr><tr><td>CleanupUpload(ctx context.Context, input CleanupUploadInput) (CleanupUploadOutput, error)</td><td>Remove provisional files safely and idempotently.</td></tr></tbody></table></div><p><a href="required-reading.html">← Previous: Required reading</a> | <a href="spec.html">Next: Full specification →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Go implementation notes</a></li><li><a href="#section-2">Project-specific trace</a></li><li><a href="#section-3">Typed boundaries</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

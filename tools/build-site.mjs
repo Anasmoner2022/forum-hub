@@ -19,12 +19,14 @@ try {
 }
 
 await import('./build-guides.mjs');
+await import('./build-go-guides.mjs');
 const inventory = JSON.parse(await readFile(path.join(root, 'curriculum.json'), 'utf8'));
-const files = new Set(['curriculum.json']);
+const goInventory = JSON.parse(await readFile(path.join(root, 'go/curriculum.json'), 'utf8'));
+const files = new Set(['curriculum.json', 'go/curriculum.json']);
 for (const entry of await readdir(root, {withFileTypes: true})) {
   if (entry.isFile() && entry.name.endsWith('.html')) files.add(entry.name);
 }
-for (const project of inventory.projects) {
+for (const project of [...inventory.projects, ...goInventory.projects]) {
   files.add(`${project.directory}/index.html`);
   for (const chapter of project.chapters) files.add(`${project.directory}/${chapter.file}`);
   for (const starter of project.starterFiles) files.add(`${project.directory}/starter/${starter}`);

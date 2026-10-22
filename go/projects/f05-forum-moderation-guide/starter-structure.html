@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Starter structure — F05: Forum Moderation: Roles and Review Workflows — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Starter structure</h1><p>Copy these deliberately unfinished files into your own implementation folder. Core logic and typed input/output fields are TODOs for the learner. The initial code compiles; the run and required tests intentionally fail until implemented.</p><h2 id="section-1">Starter files supplied</h2><ul><li><a href="starter/go.mod">go.mod</a></li><li><a href="starter/cmd/lab/main.go">cmd/lab/main.go</a></li><li><a href="starter/internal/lab/project.go">internal/lab/project.go</a></li><li><a href="starter/internal/lab/scenario.go">internal/lab/scenario.go</a></li><li><a href="starter/internal/lab/project_test.go">internal/lab/project_test.go</a></li><li><a href="starter/.gitignore">.gitignore</a></li><li><a href="starter/docs/decisions.md">docs/decisions.md</a></li></ul><pre><code>go.mod
+cmd/lab/main.go
+internal/lab/project.go
+internal/lab/scenario.go
+internal/lab/project_test.go
+.gitignore
+docs/decisions.md</code></pre><h2 id="section-2">Additional files you create</h2><ul><li>internal/lab/moderation/</li><li>templates/admin/</li><li>templates/moderator/</li><li>design/permissions.csv</li></ul><h2 id="section-3">go.mod</h2><pre><code>module academy.local/f05
+
+go 1.26.0
+</code></pre><h2 id="section-4">cmd/lab/main.go</h2><pre><code>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;academy.local/f05/internal/lab&quot;
+)
+
+func main() {
+	if err := lab.Run(os.Args[1:]); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+</code></pre><h2 id="section-5">internal/lab/project.go</h2><pre><code>package lab
+
+import (
+	&quot;context&quot;
+	&quot;fmt&quot;
+)
+
+// ModerateForumPost: Reuse prepared permission and review state rules.
+// TODO: define these fields from the specification and use trusted context.
+type ModerateForumPostInput struct{}
+type ModerateForumPostOutput struct{}
+
+func ModerateForumPost(ctx context.Context, input ModerateForumPostInput) (ModerateForumPostOutput, error) {
+	// TODO: implement the assessed behavior; keep signatures typed.
+	return ModerateForumPostOutput{}, fmt.Errorf(&quot;TODO: ModerateForumPost&quot;)
+}
+
+// ManageModeratorRequest: Perform an audited admin decision.
+// TODO: define these fields from the specification and use trusted context.
+type ManageModeratorRequestInput struct{}
+type ManageModeratorRequestOutput struct{}
+
+func ManageModeratorRequest(ctx context.Context, input ManageModeratorRequestInput) (ManageModeratorRequestOutput, error) {
+	// TODO: implement the assessed behavior; keep signatures typed.
+	return ManageModeratorRequestOutput{}, fmt.Errorf(&quot;TODO: ManageModeratorRequest&quot;)
+}
+
+// ManageReport: Store authorized admin response and status.
+// TODO: define these fields from the specification and use trusted context.
+type ManageReportInput struct{}
+type ManageReportOutput struct{}
+
+func ManageReport(ctx context.Context, input ManageReportInput) (ManageReportOutput, error) {
+	// TODO: implement the assessed behavior; keep signatures typed.
+	return ManageReportOutput{}, fmt.Errorf(&quot;TODO: ManageReport&quot;)
+}
+</code></pre><h2 id="section-6">internal/lab/scenario.go</h2><pre><code>package lab
+
+import &quot;fmt&quot;
+
+func Run(args []string) error {
+	// TODO: validate demo/serve arguments and wire the prepared components.
+	// Keep configuration, database ownership and graceful shutdown here.
+	return fmt.Errorf(&quot;TODO: wire F05 scenario&quot;)
+}
+</code></pre><h2 id="section-7">internal/lab/project_test.go</h2><pre><code>package lab
+
+import &quot;testing&quot;
+
+// These failing TODO tests are not evidence of implemented behavior.
+// Replace them with specification-based assertions; no required skips remain.
+func TestContract01(t *testing.T) {
+	// Guest/member separation: direct privileged request from guest/member
+	// Expected: 401/403; unchanged state
+	t.Fatal(&quot;TODO: implement independent assertions for Guest/member separation&quot;)
+}
+
+func TestContract02(t *testing.T) {
+	// Prepublication: create then approve post
+	// Expected: pending hidden; approved public
+	t.Fatal(&quot;TODO: implement independent assertions for Prepublication&quot;)
+}
+
+func TestContract03(t *testing.T) {
+	// Self approval: moderator submits and reviews own post
+	// Expected: 403
+	t.Fatal(&quot;TODO: implement independent assertions for Self approval&quot;)
+}
+
+func TestContract04(t *testing.T) {
+	// Role lifecycle: request, approve, demote, reuse old cookie
+	// Expected: audit persists; demoted action denied
+	t.Fatal(&quot;TODO: implement independent assertions for Role lifecycle&quot;)
+}
+
+func TestContract05(t *testing.T) {
+	// Reports: moderator report; admin response/resolution
+	// Expected: reporter sees response
+	t.Fatal(&quot;TODO: implement independent assertions for Reports&quot;)
+}
+
+func TestContract06(t *testing.T) {
+	// Admin deletion: admin deletes post and comment
+	// Expected: both hidden publicly
+	t.Fatal(&quot;TODO: implement independent assertions for Admin deletion&quot;)
+}
+
+func TestContract07(t *testing.T) {
+	// Categories: admin creates, deletes unused, attempts attached delete
+	// Expected: success, success, 409
+	t.Fatal(&quot;TODO: implement independent assertions for Categories&quot;)
+}
+
+func TestContract08(t *testing.T) {
+	// Conflict/leak audit: concurrent review and guessed pending asset when installed
+	// Expected: one review wins; restricted content denied
+	t.Fatal(&quot;TODO: implement independent assertions for Conflict/leak audit&quot;)
+}
+</code></pre><h2 id="section-8">.gitignore</h2><pre><code>data/
+.env
+secrets/
+certs/*.key
+/lab
+/lab.exe
+</code></pre><h2 id="section-9">docs/decisions.md</h2><pre><code># F05 decisions
+
+TODO: record invariants, typed boundary fields, error policy and verification evidence.
+
+## Dependencies
+TODO: record reviewed versions, native requirements and host/container compatibility.
+</code></pre><h2 id="section-10">Boundary types to complete</h2><p>Replace empty input/output structs with fields derived from the specification. Trusted actor, clock, database and server configuration are separate dependencies; browser input must never become trusted role or owner context.</p><p><a href="spec.html">← Previous: Full specification</a> | <a href="building-01.html">Next: Step 1: Apply the role and visibility matrix →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Starter files supplied</a></li><li><a href="#section-2">Additional files you create</a></li><li><a href="#section-3">go.mod</a></li><li><a href="#section-4">cmd/lab/main.go</a></li><li><a href="#section-5">internal/lab/project.go</a></li><li><a href="#section-6">internal/lab/scenario.go</a></li><li><a href="#section-7">internal/lab/project_test.go</a></li><li><a href="#section-8">.gitignore</a></li><li><a href="#section-9">docs/decisions.md</a></li><li><a href="#section-10">Boundary types to complete</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>

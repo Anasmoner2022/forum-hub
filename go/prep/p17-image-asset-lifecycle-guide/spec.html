@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Full specification — P17: Decoded Image Validation and Asset Lifecycle — Go</title>
+<link rel="stylesheet" href="../../../assets/hub.css">
+</head>
+<body class="document">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Forum Academy — curriculum home"><span class="brand-mark" aria-hidden="true">F</span><span>Forum<span class="brand-subtitle">ACADEMY</span></span></a>
+    <nav class="site-nav" aria-label="Curriculum navigation">
+      <a href="../../index.html">Overview</a>
+      <a href="../../roadmap.html">Roadmap</a>
+      <a href="../../coverage.html">Coverage</a>
+      <a href="../../instructor-guide.html">For instructors</a>
+    </nav>
+    <a class="header-label" href="../../index.html">GO PATH · CHANGE</a>
+  </div>
+</header>
+<main id="main-content" class="reading-layout">
+  <article class="reading-content">
+    <p><a href="index.html">← Index</a> | <a href="../../index.html">Go curriculum</a></p><h1>Full specification</h1><h2 id="section-1">Required behavior</h2><ol><li>Accept fully decoded JPEG, PNG and GIF only. Use image/jpeg, image/png and image/gif. Preflight dimensions and GIF frame/pixel metadata with bounded parsing, then validate the full compressed stream in a worker with enforced memory/CPU/time budgets. DecodeConfig alone is insufficient.</li><li>Academy limits: width and height each 1–8192, at most 25,000,000 pixels per frame, at most 100 GIF frames and 100,000,000 total decoded pixels. Reject oversized or corrupt images with 422.</li><li>Inspect metadata with strict decoder limits, then force bounded decode/re-encode. Retain JPEG/PNG/GIF output, strip irrelevant metadata, and preserve GIF animation within limits.</li><li>Move validated data to generated opaque names outside the source/static root; store format, dimensions, byte count, owner and storage key. Serve via an ID lookup with verified Content-Type and nosniff; never expose filesystem paths.</li><li>A post may have text and one image or text only. Publish the post only after validation and finalized file placement; database failure triggers file cleanup, and a reconciliation tool identifies crash leftovers.</li><li>If moderation is later installed, pending/deleted post images must use the same visibility policy as their parent; an obscure filename is not authorization. Persist temp/final storage in Docker correctly.</li></ol><h2 id="section-2">Inputs and output contracts</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Proposed typed boundary / Required result"><table data-columns="2"><caption>Proposed typed boundary / Required result</caption><thead><tr><th scope="col">Proposed typed boundary</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>ValidateAndNormalizeImage(ctx context.Context, input ValidateAndNormalizeImageInput) (ValidateAndNormalizeImageOutput, error)</td><td>Resolve verified output metadata and normalized bytes/path.</td></tr><tr><td>PublishPostWithAsset(ctx context.Context, input PublishPostWithAssetInput) (PublishPostWithAssetOutput, error)</td><td>Commit ownership and post linkage; compensate filesystem failures.</td></tr><tr><td>ServeAsset(ctx context.Context, input ServeAssetInput) (ServeAssetOutput, error)</td><td>Authorize parent visibility and return safe verified headers.</td></tr></tbody></table></div><h2 id="section-3">Error and boundary cases</h2><div class="table-scroll" role="region" tabindex="0" aria-label="Case / Input / action / Required result"><table data-columns="3"><caption>Case / Input / action / Required result</caption><thead><tr><th scope="col">Case</th><th scope="col">Input / action</th><th scope="col">Required result</th></tr></thead><tbody><tr><td>Required formats</td><td>valid JPEG, PNG and GIF including animation</td><td>all accepted with correct decoded types</td></tr><tr><td>MIME spoof</td><td>text bytes named image.jpg</td><td>422; no asset</td></tr><tr><td>Corrupt image</td><td>truncated PNG compressed data</td><td>422 after decode; cleanup</td></tr><tr><td>Dimension bound</td><td>width 8193 or 25,000,001 pixels/frame</td><td>422</td></tr><tr><td>Animation bound</td><td>101 GIF frames or &gt;100,000,000 total pixels</td><td>422</td></tr><tr><td>Database failure</td><td>file placed then link insert fails</td><td>no post; compensation or recorded reconciliation cleanup</td></tr></tbody></table></div><h2 id="section-4">Out of scope</h2><p>Implement this focused artifact or named forum assignment. Optional extras are not required. No ORM or framework may replace the assessed logic. Use synthetic data and keep real credentials out of source, fixtures and logs. The Go and Node.js paths have the same domain behavior; this path implements it using the prepared Go tools.</p><p><a href="go-refresher.html">← Previous: Go and subject refresher</a> | <a href="starter-structure.html">Next: Starter structure →</a></p>
+  </article>
+  <aside class="page-outline" aria-label="On this page"><p class="outline-title">On this page</p><ol><li><a href="#section-1">Required behavior</a></li><li><a href="#section-2">Inputs and output contracts</a></li><li><a href="#section-3">Error and boundary cases</a></li><li><a href="#section-4">Out of scope</a></li></ol></aside>
+</main>
+<footer class="site-footer"><p>Learn it. Build it. Explain it.</p><a href="../../source-review.html">Sources &amp; academy adaptations</a></footer>
+</body>
+</html>
